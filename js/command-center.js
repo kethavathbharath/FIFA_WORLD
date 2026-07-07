@@ -1,7 +1,7 @@
-/* ============================================================
-   NEXUS Main Dashboard — Command Center Module
-   ============================================================ */
-
+/**
+ * @namespace CommandCenter
+ * @description Main Operations Dashboard module managing live tournament maps, KPI metrics, and system gauges.
+ */
 const CommandCenter = (() => {
   'use strict';
 
@@ -9,12 +9,25 @@ const CommandCenter = (() => {
   let intervals = [];
   let eChartsInstances = {};
   let mapMarkers = [];
+  let cachedDom = {};
 
+  /**
+   * Initializes page layout, renders views, caches selectors, and triggers update intervals.
+   */
   function init() {
     const container = document.getElementById('page-command-center');
     if (!container) return;
 
     render(container);
+    
+    // Cache DOM selections to eliminate dynamic querySelector calls
+    cachedDom = {
+      fans: document.getElementById('kpi-fans'),
+      wait: document.getElementById('kpi-wait'),
+      staff: document.getElementById('kpi-staff'),
+      occupancy: document.getElementById('banner-occupancy')
+    };
+
     initMap();
     initAlertFeed();
     initMatchTicker();
@@ -29,6 +42,9 @@ const CommandCenter = (() => {
     intervals.push(kpiInterval, gaugeInterval, alertInterval, matchInterval);
   }
 
+  /**
+   * Destroys active intervals, maps, gauges, and releases DOM references to trigger garbage collection.
+   */
   function destroy() {
     // Clear all intervals
     intervals.forEach(clearInterval);
@@ -40,6 +56,7 @@ const CommandCenter = (() => {
       map = null;
     }
     mapMarkers = [];
+    cachedDom = {};
 
     // Dispose of ECharts
     Object.values(eChartsInstances).forEach(chart => {
@@ -182,18 +199,13 @@ const CommandCenter = (() => {
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
     const staffData = NexusData.getSimulatedStaffData();
 
-    const fansEl = document.getElementById('kpi-fans');
-    const waitEl = document.getElementById('kpi-wait');
-    const staffEl = document.getElementById('kpi-staff');
-    const occEl = document.getElementById('banner-occupancy');
-
-    if (fansEl) fansEl.textContent = crowdData.totalCurrent.toLocaleString();
-    if (staffEl) staffEl.textContent = staffData.totalDeployed;
-    if (occEl) occEl.textContent = Math.round(crowdData.occupancy * 100) + '%';
+    if (cachedDom.fans) cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();
+    if (cachedDom.staff) cachedDom.staff.textContent = staffData.totalDeployed;
+    if (cachedDom.occupancy) cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';
     
-    if (waitEl) {
+    if (cachedDom.wait) {
       const wTime = (5 + Math.random() * 3).toFixed(1);
-      waitEl.textContent = wTime + 'm';
+      cachedDom.wait.textContent = wTime + 'm';
     }
   }
 

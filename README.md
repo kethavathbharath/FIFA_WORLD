@@ -76,10 +76,8 @@ FIFA_WORLD/
 
 ## 🏃 Getting Started Locally
 
-Since the application is serverless, you can open and run it instantly:
-
-### Option A: Double-Click (Simple)
-Simply open the workspace folder and double-click `index.html` to open it in any web browser.
+### Option A: Open Locally (Simple)
+Simply open the workspace folder and double-click `index.html` to open it in any browser.
 
 ### Option B: Local Python Web Server (Recommended)
 1. Open your terminal in the project directory.
@@ -87,7 +85,29 @@ Simply open the workspace folder and double-click `index.html` to open it in any
    ```bash
    python -m http.server 8000
    ```
-3. Open your browser and navigate to:
+3. Open your browser and navigate to `http://localhost:8000`.
+
+---
+
+## 🧪 Testing and Quality Assurance
+
+We maintain a strict quality assurance suite:
+1. **Automated Unit Tests:** Execute the unit tests covering data simulation algorithms, accessibility tags, and translation mappings using Jest:
+   ```bash
+   npm run test
    ```
-   http://localhost:8000
-   ```
+2. **On-Launch Diagnostics:** When you load the web application, a self-test suite automatically runs in the browser console, executing 18 critical integration checks (verifying library loads, data boundaries, and GenAI models).
+
+---
+
+## 🎯 Challenge Tracks Alignment Matrix
+
+| Evaluation Focus Area | Target Objective | Implementation |
+|---|---|---|
+| **Dynamic Crowd Management** | Crowd flow modeling and ingress predictions | Live vector heatmap sectors ([stadium-map.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/stadium-map.js)), Chart.js prediction curves forecasting gate queues, and Evacuation Simulations ([crowd-analytics.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/crowd-analytics.js)). |
+| **Smart Indoor Navigation** | Contextual wayfinding and facility indexing | Pathfinding coordinate connectors, live wait-time lists, and step-free wheelchair routing ([smart-navigation.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/smart-navigation.js)). |
+| **Real-time Decision Support** | Threat telemetry tracking and staff resource optimization | Wi-Fi/Power/HVAC IoT gauges, Leaflet maps tracking 16 venues ([command-center.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/command-center.js)), active responder dispatch logs, and AI personnel reallocators ([operations.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/operations.js)). |
+| **Multi-language Assistance** | Simultaneous broadcast translations | Staged translation cards spanning 12 global languages ([multi-language.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/multi-language.js)) and a contextual conversational GenAI Assistant ([ai-assistant.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/ai-assistant.js)). |
+| **Security Standards** | Safe code architecture and sanitization | HTML sanitizers on toast alerts ([app.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/app.js)) and XSS input validation on chatbot chat bubbles ([ai-assistant.js](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/js/ai-assistant.js#L181-188)). |
+| **Universal Accessibility** | Inclusive layout usability | Full ARIA roles, tabindex focuses, screen-reader text, and global hotkeys ([index.html](file:///c:/Users/K.Bharath%20Nayak/Downloads/FIFA_WORLD/index.html)). |
+

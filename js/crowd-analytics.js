@@ -1,7 +1,7 @@
-/* ============================================================
-   NEXUS Crowd Intelligence — Crowd Analytics Module
-   ============================================================ */
-
+/**
+ * @namespace CrowdAnalytics
+ * @description Crowd intelligence module providing stand density heatmaps, AI forecasts, and evacuation simulators.
+ */
 const CrowdAnalytics = (() => {
   'use strict';
 
@@ -9,12 +9,25 @@ const CrowdAnalytics = (() => {
   let charts = {};
   let mapInstance = null;
   let selectedZoneId = 'north-lower';
+  let cachedDom = {};
 
+  /**
+   * Initializes views, maps, ECharts matrix grids, and updates cached DOM selectors.
+   */
   function init() {
     const container = document.getElementById('page-crowd-analytics');
     if (!container) return;
 
     render(container);
+    
+    // Cache DOM selections to eliminate dynamic querySelector calls
+    cachedDom = {
+      occupancy: document.getElementById('crowd-kpi-occ'),
+      fans: document.getElementById('crowd-kpi-fans'),
+      entry: document.getElementById('crowd-kpi-entry'),
+      exit: document.getElementById('crowd-kpi-exit')
+    };
+
     renderStadiumMap();
     initPredictionChart();
     initGateFlowChart();
@@ -36,9 +49,13 @@ const CrowdAnalytics = (() => {
     intervals.push(fastUpdate, slowUpdate);
   }
 
+  /**
+   * Clears active timers and disposes of chart references.
+   */
   function destroy() {
     intervals.forEach(clearInterval);
     intervals = [];
+    cachedDom = {};
 
     // Destroy Chart.js instances
     Object.values(charts).forEach(chart => {
@@ -305,16 +322,10 @@ const CrowdAnalytics = (() => {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
 
-    // Update KPI UI
-    const occEl = document.getElementById('crowd-kpi-occ');
-    const fansEl = document.getElementById('crowd-kpi-fans');
-    const entryEl = document.getElementById('crowd-kpi-entry');
-    const exitEl = document.getElementById('crowd-kpi-exit');
-
-    if (occEl) occEl.textContent = Math.round(crowdData.occupancy * 100) + '%';
-    if (fansEl) fansEl.textContent = crowdData.totalCurrent.toLocaleString();
-    if (entryEl) entryEl.textContent = crowdData.entryRate + '/min';
-    if (exitEl) exitEl.textContent = crowdData.exitRate + '/min';
+    if (cachedDom.occupancy) cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';
+    if (cachedDom.fans) cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();
+    if (cachedDom.entry) cachedDom.entry.textContent = crowdData.entryRate + '/min';
+    if (cachedDom.exit) cachedDom.exit.textContent = crowdData.exitRate + '/min';
 
     // Update SVG map
     if (mapInstance && mapInstance.update) {

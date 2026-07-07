@@ -1,0 +1,13 @@
+{
+  "name": "fifa-world-nexus",
+  "version": "1.0.0",
+  "description": "NEXUS FIFA World Cup 2026 Smart Stadium Command Center",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
