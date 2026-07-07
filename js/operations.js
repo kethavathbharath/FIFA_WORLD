@@ -10,7 +10,7 @@ const Operations = (() => {
 
   function init() {
     const container = document.getElementById('page-operations');
-    if (!container) return;
+    if (!container) {return;}
 
     incidents = NexusData.getSimulatedIncidents(7);
 
@@ -147,7 +147,7 @@ const Operations = (() => {
       document.getElementById('ops-ai-recs').style.display = 'none';
       
       const activeVal = document.getElementById('ops-val-active');
-      if (activeVal) activeVal.textContent = parseInt(activeVal.textContent) + 4;
+      if (activeVal) {activeVal.textContent = parseInt(activeVal.textContent) + 4;}
     });
 
     document.getElementById('btn-dismiss-redeploy').addEventListener('click', () => {
@@ -158,7 +158,7 @@ const Operations = (() => {
   // ─── Render Staff Overlay map ─────────────────────────────
   function renderMap() {
     const container = document.getElementById('ops-svg-container');
-    if (!container) return;
+    if (!container) {return;}
 
     container.innerHTML = '';
 
@@ -266,7 +266,7 @@ const Operations = (() => {
   // ─── Incident Dispatch Log Table ───────────────────────────
   function renderIncidentTable() {
     const tbody = document.getElementById('ops-incident-tbody');
-    if (!tbody) return;
+    if (!tbody) {return;}
 
     tbody.innerHTML = '';
 
@@ -274,9 +274,9 @@ const Operations = (() => {
       const tr = document.createElement('tr');
       
       let statusBadge = 'idle';
-      if (inc.status === 'active') statusBadge = 'critical';
-      else if (inc.status === 'responding') statusBadge = 'warning';
-      else if (inc.status === 'resolved') statusBadge = 'active';
+      if (inc.status === 'active') {statusBadge = 'critical';}
+      else if (inc.status === 'responding') {statusBadge = 'warning';}
+      else if (inc.status === 'resolved') {statusBadge = 'active';}
 
       tr.innerHTML = `
         <td class="mono text-cyan">${inc.id}</td>
@@ -339,3 +339,9 @@ const Operations = (() => {
 
   return { init, destroy };
 })();
+
+window.Operations = Operations;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = Operations;
+}

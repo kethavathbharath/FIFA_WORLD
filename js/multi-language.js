@@ -10,7 +10,7 @@ const MultiLanguage = (() => {
 
   function init() {
     const container = document.getElementById('page-multi-language');
-    if (!container) return;
+    if (!container) {return;}
 
     render(container);
     renderTranslations();
@@ -23,7 +23,6 @@ const MultiLanguage = (() => {
 
   function render(container) {
     const templates = NexusData.announcementTemplates;
-    const languages = NexusData.languages;
 
     container.innerHTML = `
       <!-- Announcement Input Area -->
@@ -132,10 +131,10 @@ const MultiLanguage = (() => {
     
     if (submitBtn) {
       submitBtn.addEventListener('click', () => {
-        if (isTranslating) return;
+        if (isTranslating) {return;}
 
         const text = document.getElementById('announcement-input').value.trim();
-        if (!text) return;
+        if (!text) {return;}
 
         currentAnnouncement = text;
         isTranslating = true;
@@ -158,7 +157,7 @@ const MultiLanguage = (() => {
       detectBtn.addEventListener('click', () => {
         const input = document.getElementById('detector-input').value.trim();
         const resultDiv = document.getElementById('detector-result');
-        if (!input) return;
+        if (!input) {return;}
 
         // Basic mock logic for detection
         let detectedLang = "Spanish (es)";
@@ -198,7 +197,7 @@ const MultiLanguage = (() => {
   // ─── Render Language Cards ─────────────────────────────────
   function renderTranslations(stream = false) {
     const grid = document.getElementById('language-translation-cards');
-    if (!grid) return;
+    if (!grid) {return;}
 
     grid.innerHTML = '';
 
@@ -282,3 +281,9 @@ const MultiLanguage = (() => {
 
   return { init, destroy };
 })();
+
+window.MultiLanguage = MultiLanguage;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = MultiLanguage;
+}

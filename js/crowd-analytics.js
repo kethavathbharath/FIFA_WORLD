@@ -16,7 +16,7 @@ const CrowdAnalytics = (() => {
    */
   function init() {
     const container = document.getElementById('page-crowd-analytics');
-    if (!container) return;
+    if (!container) {return;}
 
     render(container);
     
@@ -255,7 +255,7 @@ const CrowdAnalytics = (() => {
     const zone = crowdData.zones.find(z => z.id === zoneId) || crowdData.zones[0];
 
     const content = document.getElementById('zone-detail-content');
-    if (!content) return;
+    if (!content) {return;}
 
     // Highlight zone visually on SVG
     document.querySelectorAll('.stadium-zone').forEach(el => {
@@ -322,10 +322,10 @@ const CrowdAnalytics = (() => {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
 
-    if (cachedDom.occupancy) cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';
-    if (cachedDom.fans) cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();
-    if (cachedDom.entry) cachedDom.entry.textContent = crowdData.entryRate + '/min';
-    if (cachedDom.exit) cachedDom.exit.textContent = crowdData.exitRate + '/min';
+    if (cachedDom.occupancy) {cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';}
+    if (cachedDom.fans) {cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();}
+    if (cachedDom.entry) {cachedDom.entry.textContent = crowdData.entryRate + '/min';}
+    if (cachedDom.exit) {cachedDom.exit.textContent = crowdData.exitRate + '/min';}
 
     // Update SVG map
     if (mapInstance && mapInstance.update) {
@@ -431,7 +431,7 @@ const CrowdAnalytics = (() => {
   // ─── AI Insights Recommendations ───────────────────────────
   function renderAIInsights() {
     const container = document.getElementById('crowd-ai-insights');
-    if (!container) return;
+    if (!container) {return;}
 
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -484,7 +484,7 @@ const CrowdAnalytics = (() => {
     const simStatus = document.getElementById('evac-simulating-status');
     const resultEl = document.getElementById('evac-time-result');
 
-    if (!runBtn) return;
+    if (!runBtn) {return;}
 
     runBtn.addEventListener('click', () => {
       runBtn.disabled = true;
@@ -505,3 +505,9 @@ const CrowdAnalytics = (() => {
 
   return { init, destroy };
 })();
+
+window.CrowdAnalytics = CrowdAnalytics;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = CrowdAnalytics;
+}

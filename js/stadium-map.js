@@ -14,7 +14,7 @@ const NexusStadiumMap = (() => {
    */
   function render(containerId, zones, options = {}) {
     const container = document.getElementById(containerId);
-    if (!container) return null;
+    if (!container) {return null;}
 
     const { onClick, onHover, showLabels = true, showValues = true, compact = false } = options;
     
@@ -42,7 +42,7 @@ const NexusStadiumMap = (() => {
     svg.appendChild(defs);
 
     // ─── Background ──────────────────────────────────────────
-    const bg = createRect(svg, 0, 0, width, height, { fill: 'rgba(10, 10, 15, 0.3)', rx: 12 });
+    createRect(svg, 0, 0, width, height, { fill: 'rgba(10, 10, 15, 0.3)', rx: 12 });
 
     // ─── Zone Definitions with SVG paths ─────────────────────
     const cx = width / 2;
@@ -115,7 +115,7 @@ const NexusStadiumMap = (() => {
     
     zoneShapes.forEach(shape => {
       const zoneData = zones.find(z => z.id === shape.id);
-      if (!zoneData) return;
+      if (!zoneData) {return;}
 
       const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       group.setAttribute('class', `stadium-zone ${zoneData.density}-density`);
@@ -229,7 +229,7 @@ const NexusStadiumMap = (() => {
   function updateZones(zoneGroups, zones, showValues) {
     zones.forEach(zone => {
       const group = zoneGroups[zone.id];
-      if (!group) return;
+      if (!group) {return;}
 
       // Update density class
       group.className.baseVal = `stadium-zone ${zone.density}-density`;
@@ -293,7 +293,7 @@ const NexusStadiumMap = (() => {
   // ─── Tooltip Helper ────────────────────────────────────────
   function showTooltip(zoneData, event) {
     const tooltip = document.getElementById('zone-tooltip');
-    if (!tooltip) return;
+    if (!tooltip) {return;}
 
     document.getElementById('tooltip-title').textContent = zoneData.name;
     document.getElementById('tooltip-capacity').textContent = zoneData.capacity?.toLocaleString() || '---';
@@ -308,7 +308,7 @@ const NexusStadiumMap = (() => {
 
   function hideTooltip() {
     const tooltip = document.getElementById('zone-tooltip');
-    if (tooltip) tooltip.classList.remove('visible');
+    if (tooltip) {tooltip.classList.remove('visible');}
   }
 
   return {
@@ -317,3 +317,9 @@ const NexusStadiumMap = (() => {
     hideTooltip
   };
 })();
+
+window.NexusStadiumMap = NexusStadiumMap;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = NexusStadiumMap;
+}

@@ -16,12 +16,10 @@ const NexusApp = (() => {
   };
 
   let activePage = 'command-center';
-  let clockInterval = null;
-  let toastTimeout = null;
 
   // ─── Navigation ────────────────────────────────────────────
   function navigateTo(page) {
-    if (page === activePage) return;
+    if (page === activePage) {return;}
     
     // Destroy current module
     const currentModule = modules[activePage];
@@ -69,7 +67,7 @@ const NexusApp = (() => {
         now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
     updateClock();
-    clockInterval = setInterval(updateClock, 1000);
+    setInterval(updateClock, 1000);
   }
 
   // ─── Toast Notifications ───────────────────────────────────
@@ -112,7 +110,7 @@ const NexusApp = (() => {
     // Show a random operational toast every 30-60 seconds
     function scheduleNext() {
       const delay = 30000 + Math.random() * 30000;
-      toastTimeout = setTimeout(() => {
+      setTimeout(() => {
         const alerts = [
           { type: 'info', title: 'AI Insight', msg: 'Fan engagement metrics up 12% in the last 15 minutes.' },
           { type: 'warning', title: 'Crowd Alert', msg: 'Gate B approaching capacity threshold. Monitor advised.' },
@@ -168,7 +166,7 @@ const NexusApp = (() => {
 
     // Mobile menu
     const mobileBtn = document.getElementById('mobile-menu-btn');
-    if (mobileBtn) mobileBtn.addEventListener('click', toggleMobileMenu);
+    if (mobileBtn) {mobileBtn.addEventListener('click', toggleMobileMenu);}
 
     // Notification button
     document.getElementById('btn-notifications').addEventListener('click', () => {
@@ -274,7 +272,7 @@ const NexusApp = (() => {
    * @returns {Promise} Resolves when the script successfully executes.
    */
   function loadScript(url) {
-    if (scriptCache[url]) return scriptCache[url];
+    if (scriptCache[url]) {return scriptCache[url];}
     scriptCache[url] = new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = url;
@@ -334,3 +332,9 @@ const NexusApp = (() => {
     get activePage() { return activePage; }
   };
 })();
+
+window.NexusApp = NexusApp;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = NexusApp;
+}

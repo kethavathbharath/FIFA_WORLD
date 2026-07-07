@@ -12,7 +12,7 @@ const SmartNavigation = (() => {
 
   function init() {
     const container = document.getElementById('page-smart-navigation');
-    if (!container) return;
+    if (!container) {return;}
 
     render(container);
     renderFloorPlan();
@@ -111,7 +111,7 @@ const SmartNavigation = (() => {
   // ─── Render Stadium SVG Floor Plan ────────────────────────
   function renderFloorPlan() {
     const container = document.getElementById('nav-svg-container');
-    if (!container) return;
+    if (!container) {return;}
 
     container.innerHTML = '';
 
@@ -189,13 +189,6 @@ const SmartNavigation = (() => {
 
       // Popup tooltips on hover
       g.addEventListener('mouseenter', (e) => {
-        const fakeZone = {
-          name: f.name,
-          capacity: f.queueLength || 0,
-          current: f.waitTime || 0,
-          occupancy: (f.waitTime || 0) / 20,
-          temperature: 24
-        };
         // Reuse zone tooltip showing facility queue details
         const tooltip = document.getElementById('zone-tooltip');
         if (tooltip) {
@@ -212,7 +205,7 @@ const SmartNavigation = (() => {
 
       g.addEventListener('mouseleave', () => {
         const tooltip = document.getElementById('zone-tooltip');
-        if (tooltip) tooltip.classList.remove('visible');
+        if (tooltip) {tooltip.classList.remove('visible');}
       });
 
       svg.appendChild(g);
@@ -237,7 +230,7 @@ const SmartNavigation = (() => {
     const origin = facilities.find(f => f.id === originId);
     const dest = facilities.find(f => f.id === destId);
 
-    if (!origin || !dest) return;
+    if (!origin || !dest) {return;}
 
     // Re-highlight POI Markers
     document.querySelectorAll('.poi-marker circle').forEach(c => {
@@ -306,7 +299,7 @@ const SmartNavigation = (() => {
   // ─── Facility Wait Times List ──────────────────────────────
   function updateFacilityWaitTimes() {
     const grid = document.getElementById('nav-facility-grid');
-    if (!grid) return;
+    if (!grid) {return;}
 
     const facilities = NexusData.getSimulatedFacilities();
 
@@ -335,3 +328,9 @@ const SmartNavigation = (() => {
 
   return { init, destroy };
 })();
+
+window.SmartNavigation = SmartNavigation;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SmartNavigation;
+}

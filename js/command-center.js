@@ -16,7 +16,7 @@ const CommandCenter = (() => {
    */
   function init() {
     const container = document.getElementById('page-command-center');
-    if (!container) return;
+    if (!container) {return;}
 
     render(container);
     
@@ -199,9 +199,9 @@ const CommandCenter = (() => {
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
     const staffData = NexusData.getSimulatedStaffData();
 
-    if (cachedDom.fans) cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();
-    if (cachedDom.staff) cachedDom.staff.textContent = staffData.totalDeployed;
-    if (cachedDom.occupancy) cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';
+    if (cachedDom.fans) {cachedDom.fans.textContent = crowdData.totalCurrent.toLocaleString();}
+    if (cachedDom.staff) {cachedDom.staff.textContent = staffData.totalDeployed;}
+    if (cachedDom.occupancy) {cachedDom.occupancy.textContent = Math.round(crowdData.occupancy * 100) + '%';}
     
     if (cachedDom.wait) {
       const wTime = (5 + Math.random() * 3).toFixed(1);
@@ -212,7 +212,7 @@ const CommandCenter = (() => {
   // ─── Initialize Map ────────────────────────────────────────
   function initMap() {
     const mapContainer = document.getElementById('leaflet-map-container');
-    if (!mapContainer) return;
+    if (!mapContainer) {return;}
 
     // Initialize Leaflet map
     map = L.map('leaflet-map-container', {
@@ -293,7 +293,7 @@ const CommandCenter = (() => {
 
   function updateAlertFeed() {
     const feed = document.getElementById('command-alert-feed');
-    if (!feed) return;
+    if (!feed) {return;}
 
     const alerts = NexusData.getSimulatedAlerts(8);
     feed.innerHTML = '';
@@ -326,7 +326,7 @@ const CommandCenter = (() => {
 
   function updateMatchTicker() {
     const ticker = document.getElementById('command-match-ticker');
-    if (!ticker) return;
+    if (!ticker) {return;}
 
     const matches = NexusData.getSimulatedMatches();
     ticker.innerHTML = '';

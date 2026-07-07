@@ -23,10 +23,10 @@ module.exports = [
       }
     },
     rules: {
-      "no-unused-vars": "off",
+      "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
       "no-console": "off",
       "eqeqeq": "error",
-      "curly": "off",
+      "curly": "error",
       "no-eval": "error",
       "no-implied-eval": "error"
     }

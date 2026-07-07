@@ -8,7 +8,6 @@ const NexusData = (() => {
 
   // ─── Current State ─────────────────────────────────────────
   let currentVenueId = 'metlife';
-  let simulationSpeed = 1;
 
   // ─── 16 Official FIFA World Cup 2026 Venues ────────────────
   const venues = [
@@ -135,13 +134,11 @@ const NexusData = (() => {
 
   // ─── Simulated Match Data ──────────────────────────────────
   function getSimulatedMatches() {
-    const now = new Date();
     const matchPairs = [
       [0, 1], [4, 5], [8, 9], [12, 13], [16, 17], [20, 21],
       [24, 25], [28, 29], [32, 33], [36, 37], [40, 41], [44, 45],
       [2, 3], [6, 7], [10, 11], [14, 15], [18, 19], [22, 23]
     ];
-    const venueIds = venues.map(v => v.id);
     const matches = [];
 
     for (let i = 0; i < 6; i++) {
@@ -355,11 +352,11 @@ const NexusData = (() => {
   function getSimulatedFacilities() {
     return facilitiesTemplate.map(f => {
       let waitTime;
-      if (f.type === 'restroom') waitTime = Math.floor(2 + Math.random() * 10);
-      else if (f.type === 'concession') waitTime = Math.floor(3 + Math.random() * 15);
-      else if (f.type === 'medical') waitTime = Math.floor(0 + Math.random() * 5);
-      else if (f.type === 'merchandise') waitTime = Math.floor(5 + Math.random() * 12);
-      else waitTime = 0;
+      if (f.type === 'restroom') {waitTime = Math.floor(2 + Math.random() * 10);}
+      else if (f.type === 'concession') {waitTime = Math.floor(3 + Math.random() * 15);}
+      else if (f.type === 'medical') {waitTime = Math.floor(0 + Math.random() * 5);}
+      else if (f.type === 'merchandise') {waitTime = Math.floor(5 + Math.random() * 12);}
+      else {waitTime = 0;}
 
       const waitLevel = waitTime > 10 ? 'high' : waitTime > 5 ? 'medium' : 'low';
 
@@ -486,15 +483,15 @@ const NexusData = (() => {
     const q = query.toLowerCase();
     let key = 'default';
 
-    if (q.includes('crowd') || q.includes('density') || q.includes('occupancy') || q.includes('capacity')) key = 'crowd';
-    else if (q.includes('gate') || q.includes('entry') || q.includes('exit') || q.includes('flow')) key = 'gate';
-    else if (q.includes('security') || q.includes('camera') || q.includes('threat') || q.includes('breach')) key = 'security';
-    else if (q.includes('weather') || q.includes('temperature') || q.includes('rain') || q.includes('heat')) key = 'weather';
-    else if (q.includes('match') || q.includes('score') || q.includes('game') || q.includes('team')) key = 'match';
-    else if (q.includes('staff') || q.includes('deploy') || q.includes('personnel') || q.includes('volunteer')) key = 'staff';
-    else if (q.includes('navigate') || q.includes('direction') || q.includes('find') || q.includes('where') || q.includes('route') || q.includes('way')) key = 'navigate';
-    else if (q.includes('evacuate') || q.includes('evacuation') || q.includes('emergency') || q.includes('clear')) key = 'evacuate';
-    else if (q.includes('help') || q.includes('what can') || q.includes('commands') || q.includes('menu')) key = 'help';
+    if (q.includes('crowd') || q.includes('density') || q.includes('occupancy') || q.includes('capacity')) {key = 'crowd';}
+    else if (q.includes('gate') || q.includes('entry') || q.includes('exit') || q.includes('flow')) {key = 'gate';}
+    else if (q.includes('security') || q.includes('camera') || q.includes('threat') || q.includes('breach')) {key = 'security';}
+    else if (q.includes('weather') || q.includes('temperature') || q.includes('rain') || q.includes('heat')) {key = 'weather';}
+    else if (q.includes('match') || q.includes('score') || q.includes('game') || q.includes('team')) {key = 'match';}
+    else if (q.includes('staff') || q.includes('deploy') || q.includes('personnel') || q.includes('volunteer')) {key = 'staff';}
+    else if (q.includes('navigate') || q.includes('direction') || q.includes('find') || q.includes('where') || q.includes('route') || q.includes('way')) {key = 'navigate';}
+    else if (q.includes('evacuate') || q.includes('evacuation') || q.includes('emergency') || q.includes('clear')) {key = 'evacuate';}
+    else if (q.includes('help') || q.includes('what can') || q.includes('commands') || q.includes('menu')) {key = 'help';}
 
     const template = aiResponses[key];
     const crowdData = getSimulatedCrowdData(currentVenueId);
@@ -734,8 +731,8 @@ const NexusData = (() => {
 
     // Utilities
     formatNumber(num) {
-      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      if (num >= 1000000) {return (num / 1000000).toFixed(1) + 'M';}
+      if (num >= 1000) {return (num / 1000).toFixed(1) + 'K';}
       return num.toString();
     },
     getRandomElement(arr) {

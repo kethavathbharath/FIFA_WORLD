@@ -11,7 +11,7 @@ const AIAssistant = (() => {
 
   function init() {
     const container = document.getElementById('page-ai-assistant');
-    if (!container) return;
+    if (!container) {return;}
 
     render(container);
     messagesContainer = document.getElementById('chat-messages');
@@ -85,7 +85,7 @@ const AIAssistant = (() => {
     // Chips click binding
     document.querySelectorAll('.suggestion-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        if (isTyping) return;
+        if (isTyping) {return;}
         input.value = chip.textContent;
         sendMessage();
       });
@@ -93,11 +93,11 @@ const AIAssistant = (() => {
   }
 
   function sendMessage() {
-    if (isTyping) return;
+    if (isTyping) {return;}
     
     const input = document.getElementById('chat-user-input');
     const query = input.value.trim();
-    if (!query) return;
+    if (!query) {return;}
 
     // Add user bubble
     addMessage('user', query);
@@ -134,12 +134,12 @@ const AIAssistant = (() => {
 
   function hideTypingIndicator() {
     const indicator = document.getElementById('chat-typing-indicator');
-    if (indicator) indicator.remove();
+    if (indicator) {indicator.remove();}
     isTyping = false;
   }
 
   function addMessage(role, content, responseData = null) {
-    if (!messagesContainer) return;
+    if (!messagesContainer) {return;}
 
     const msg = document.createElement('div');
     msg.className = `chat-msg ${role} animate__animated animate__fadeInUp`;
@@ -201,13 +201,11 @@ const AIAssistant = (() => {
     if (formatted.includes('|')) {
       const lines = formatted.split('<br/>');
       let tableHtml = '<table class="data-table" style="margin-top: 10px; margin-bottom: 10px;">';
-      let inTable = false;
 
       lines.forEach(line => {
         if (line.includes('|')) {
           const cells = line.split('|').map(c => c.trim()).filter(c => c !== '');
           if (cells.length > 0 && !cells[0].includes('---')) {
-            inTable = true;
             tableHtml += '<tr>' + cells.map(c => `<td style="padding:6px; border:1px solid rgba(255,255,255,0.05);">${c}</td>`).join('') + '</tr>';
           }
         }
@@ -316,3 +314,9 @@ const AIAssistant = (() => {
 
   return { init, destroy };
 })();
+
+window.AIAssistant = AIAssistant;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = AIAssistant;
+}

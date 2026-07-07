@@ -73,7 +73,7 @@ const NexusCharts = (() => {
   // ─── Create Line Chart (Chart.js) ──────────────────────────
   function createLineChart(canvasId, labels, datasets, options = {}) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
+    if (!canvas) {return null;}
 
     const ctx = canvas.getContext('2d');
     
@@ -98,7 +98,7 @@ const NexusCharts = (() => {
   // ─── Create Bar Chart (Chart.js) ───────────────────────────
   function createBarChart(canvasId, labels, datasets, options = {}) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
+    if (!canvas) {return null;}
 
     const ctx = canvas.getContext('2d');
 
@@ -119,7 +119,7 @@ const NexusCharts = (() => {
   // ─── Create Doughnut Chart (Chart.js) ──────────────────────
   function createDoughnutChart(canvasId, labels, data, chartColors, options = {}) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
+    if (!canvas) {return null;}
 
     const ctx = canvas.getContext('2d');
 
@@ -159,7 +159,7 @@ const NexusCharts = (() => {
   // ─── Create ECharts Gauge ──────────────────────────────────
   function createGauge(containerId, value, label, color, max = 100) {
     const container = document.getElementById(containerId);
-    if (!container) return null;
+    if (!container) {return null;}
 
     const chart = echarts.init(container, null, { renderer: 'canvas' });
 
@@ -218,7 +218,7 @@ const NexusCharts = (() => {
   // ─── Create ECharts Heatmap ────────────────────────────────
   function createHeatmap(containerId, data, xLabels, yLabels) {
     const container = document.getElementById(containerId);
-    if (!container) return null;
+    if (!container) {return null;}
 
     const chart = echarts.init(container, null, { renderer: 'canvas' });
 
@@ -298,7 +298,7 @@ const NexusCharts = (() => {
   // ─── Create ECharts Radar ──────────────────────────────────
   function createRadar(containerId, indicators, data, label) {
     const container = document.getElementById(containerId);
-    if (!container) return null;
+    if (!container) {return null;}
 
     const chart = echarts.init(container, null, { renderer: 'canvas' });
 
@@ -343,7 +343,7 @@ const NexusCharts = (() => {
 
   // ─── Update Gauge Value ────────────────────────────────────
   function updateGauge(chart, value) {
-    if (!chart) return;
+    if (!chart) {return;}
     chart.setOption({
       series: [{ data: [{ value: Math.round(value) }] }]
     });
@@ -351,7 +351,7 @@ const NexusCharts = (() => {
 
   // ─── Update Line Chart ─────────────────────────────────────
   function updateLineChart(chart, labels, datasets) {
-    if (!chart) return;
+    if (!chart) {return;}
     chart.data.labels = labels;
     datasets.forEach((ds, i) => {
       if (chart.data.datasets[i]) {
@@ -363,15 +363,15 @@ const NexusCharts = (() => {
 
   // ─── Destroy Chart ─────────────────────────────────────────
   function destroyChart(chart) {
-    if (!chart) return;
-    if (chart.destroy) chart.destroy();
-    if (chart.dispose) chart.dispose();
+    if (!chart) {return;}
+    if (chart.destroy) {chart.destroy();}
+    if (chart.dispose) {chart.dispose();}
   }
 
   // ─── Create Mini Spark Line (for inline use) ───────────────
   function createSparkline(canvasId, data, color = colors.cyan) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
+    if (!canvas) {return null;}
 
     const ctx = canvas.getContext('2d');
     return new Chart(ctx, {
