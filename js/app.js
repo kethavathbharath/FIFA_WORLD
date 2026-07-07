@@ -338,43 +338,10 @@ const NexusApp = (() => {
     }
   }
 
-  const scriptCache = {};
-
-  /**
-   * Helper utility to dynamically inject script tags for lazy loading dependencies.
-   * @param {string} url - Destination URL of the JS file.
-   * @returns {Promise} Resolves when the script successfully executes.
-   */
-  function loadScript(url) {
-    if (scriptCache[url]) {return scriptCache[url];}
-    scriptCache[url] = new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = url;
-      script.async = true;
-      script.onload = () => resolve();
-      script.onerror = (err) => reject(err);
-      document.head.appendChild(script);
-    });
-    return scriptCache[url];
-  }
-
-  /**
-   * Loads heavy charting/mapping libraries in parallel after the initial paint.
-   * @returns {Promise} Promise resolving when all scripts are loaded.
-   */
-  function lazyLoadLibraries() {
-    return Promise.all([
-      loadScript('https://cdn.jsdelivr.net/npm/chart.js'),
-      loadScript('https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js'),
-      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
-    ]);
-  }
-
   // ─── Initialization ────────────────────────────────────────
   /**
    * @description Application entry-point. Binds events, starts the clock and
-   * auto-alert cycle, then lazy-loads external libraries (Chart.js, ECharts,
-   * Leaflet) before running diagnostics and booting the Command Center module.
+   * auto-alert cycle, then boots the Command Center module.
    * @returns {void}
    */
   function init() {
@@ -387,18 +354,12 @@ const NexusApp = (() => {
     startClock();
     startAutoAlerts();
 
-    // Lazy load libraries after first paint to avoid render-blocking
-    requestAnimationFrame(() => {
-      setTimeout(async () => {
-        try {
-          await lazyLoadLibraries();
-          runDiagnostics();
-          modules['command-center'].init();
-        } catch (err) {
-          console.error('Failed to initialize external dependencies:', err);
-        }
-      }, 50);
-    });
+    try {
+      runDiagnostics();
+      modules['command-center'].init();
+    } catch (err) {
+      console.error('Failed to initialize Command Center:', err);
+    }
   }
 
   // ─── Start on DOM Ready ────────────────────────────────────
@@ -411,7 +372,6 @@ const NexusApp = (() => {
   return {
     navigateTo,
     showToast,
-    loadScript,
     get activePage() { return activePage; }
   };
 })();

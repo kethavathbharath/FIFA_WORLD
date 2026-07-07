@@ -147,7 +147,10 @@
         
         <!-- Command Center Page -->
         <div class="page-view active" id="page-command-center">
-          <div class="loading-spinner"></div>
+          <div class="venue-banner glass-panel" style="padding:1.5rem;margin-bottom:1rem">
+            <h2 style="color:#00F7FF;margin:0;font-size:1.5rem">🏟️ NEXUS Command Center</h2>
+            <p style="color:rgba(255,255,255,0.7);margin:0.5rem 0 0">FIFA World Cup 2026 — Real-Time Operations Dashboard Loading...</p>
+          </div>
         </div>
 
         <!-- Crowd Analytics Page -->
@@ -188,7 +191,10 @@
     <div class="stat"><span>Temperature</span><span class="stat-val" id="tooltip-temp"></span></div>
   </div>
 
-  <!-- External Libraries are lazy-loaded dynamically in app.js to maximize PageSpeed scores -->
+  <!-- ═══ External Libraries ═══ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 
   <!-- ═══ Application Scripts ═══ -->
   <script src="js/data.js" defer></script>
