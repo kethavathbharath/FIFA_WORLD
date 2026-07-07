@@ -380,3 +380,9 @@ const CommandCenter = (() => {
 
   return { init, destroy };
 })();
+
+window.CommandCenter = CommandCenter;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = CommandCenter;
+}
