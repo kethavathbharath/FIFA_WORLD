@@ -4,9 +4,11 @@
   "description": "NEXUS FIFA World Cup 2026 Smart Stadium Command Center",
   "main": "index.html",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint js/ tests/"
   },
   "devDependencies": {
+    "eslint": "^9.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
   }
