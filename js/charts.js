@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS Charts — Chart.js & ECharts Configuration Library
-   ============================================================ */
+/**
+ * @file charts.js
+ * @description NEXUS Charts — Shared Chart.js and Apache ECharts factory functions
+ * for line charts, bar charts, gauge visualizations, and color palette management.
+ * @module NexusCharts
+ */
 
 const NexusCharts = (() => {
   'use strict';

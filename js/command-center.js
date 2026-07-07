@@ -1,6 +1,8 @@
 /**
+ * @file command-center.js
  * @namespace CommandCenter
  * @description Main Operations Dashboard module managing live tournament maps, KPI metrics, and system gauges.
+ * @module CommandCenter
  */
 const CommandCenter = (() => {
   'use strict';

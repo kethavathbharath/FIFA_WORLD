@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS Wayfinding — Smart Navigation Module
-   ============================================================ */
+/**
+ * @file smart-navigation.js
+ * @description NEXUS Wayfinding — Indoor navigation module with AI pathfinding,
+ * accessible routing, facility wait times, and concourse floor plan rendering.
+ * @module SmartNavigation
+ */
 
 const SmartNavigation = (() => {
   'use strict';

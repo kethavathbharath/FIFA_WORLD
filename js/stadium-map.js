@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS Stadium Map — SVG Stadium Renderer
-   ============================================================ */
+/**
+ * @file stadium-map.js
+ * @description NEXUS Stadium Map — Programmatic SVG stadium zone renderer with
+ * interactive click/hover density overlays and real-time occupancy visualization.
+ * @module NexusStadiumMap
+ */
 
 const NexusStadiumMap = (() => {
   'use strict';

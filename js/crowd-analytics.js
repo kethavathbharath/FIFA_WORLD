@@ -1,6 +1,8 @@
 /**
+ * @file crowd-analytics.js
  * @namespace CrowdAnalytics
  * @description Crowd intelligence module providing stand density heatmaps, AI forecasts, and evacuation simulators.
+ * @module CrowdAnalytics
  */
 const CrowdAnalytics = (() => {
   'use strict';

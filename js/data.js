@@ -1,7 +1,9 @@
-/* ============================================================
-   NEXUS Data Layer — FIFA World Cup 2026
-   Venue data, simulation engine, AI response library
-   ============================================================ */
+/**
+ * @file data.js
+ * @description NEXUS Data Layer — Venue telemetry database, simulation engine, and AI response library
+ * for all 16 FIFA World Cup 2026 host stadiums.
+ * @module NexusData
+ */
 
 const NexusData = (() => {
   'use strict';

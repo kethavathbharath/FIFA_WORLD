@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS AI Assistant — Conversational Operations Agent
-   ============================================================ */
+/**
+ * @file ai-assistant.js
+ * @description NEXUS AI Assistant — GenAI conversational chat interface with streaming
+ * token responses, inline Chart.js visualizations, and contextual query suggestions.
+ * @module AIAssistant
+ */
 
 const AIAssistant = (() => {
   'use strict';

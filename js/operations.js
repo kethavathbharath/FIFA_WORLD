@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS Management — Operations & Incidents Control Module
-   ============================================================ */
+/**
+ * @file operations.js
+ * @description NEXUS Operations — Incident dispatch console, responder status grid,
+ * and AI resource reallocation optimizer for security, medical, and facility teams.
+ * @module Operations
+ */
 
 const Operations = (() => {
   'use strict';

@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS Translation — Multi-Language Support Hub Module
-   ============================================================ */
+/**
+ * @file multi-language.js
+ * @description NEXUS Translation Hub — GenAI-powered simultaneous translation engine
+ * supporting 12 languages, language detection, and pre-built PA announcement templates.
+ * @module MultiLanguage
+ */
 
 const MultiLanguage = (() => {
   'use strict';

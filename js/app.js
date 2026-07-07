@@ -1,6 +1,9 @@
-/* ============================================================
-   NEXUS App Shell — Navigation, State & Initialization
-   ============================================================ */
+/**
+ * @file app.js
+ * @description NEXUS App Shell — SPA router, module lifecycle manager, lazy script loader,
+ * toast notification system, and keyboard shortcut bindings.
+ * @module NexusApp
+ */
 
 const NexusApp = (() => {
   'use strict';
