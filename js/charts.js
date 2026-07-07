@@ -211,9 +211,11 @@ const NexusCharts = (() => {
 
     chart.setOption(option);
     
-    // Handle resize
-    const resizeObserver = new ResizeObserver(() => chart.resize());
-    resizeObserver.observe(container);
+    // Handle resize — deferred to avoid forced reflow during init
+    requestAnimationFrame(() => {
+      const resizeObserver = new ResizeObserver(() => chart.resize());
+      resizeObserver.observe(container);
+    });
     
     return chart;
   }

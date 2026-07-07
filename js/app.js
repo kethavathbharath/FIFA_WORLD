@@ -309,16 +309,18 @@ const NexusApp = (() => {
     startClock();
     startAutoAlerts();
 
-    // Lazy load libraries with a 600ms delay to eliminate render-blocking scores on PageSpeed audit window
-    setTimeout(async () => {
-      try {
-        await lazyLoadLibraries();
-        runDiagnostics();
-        modules['command-center'].init();
-      } catch (err) {
-        console.error('Failed to initialize external dependencies:', err);
-      }
-    }, 1800);
+    // Lazy load libraries after first paint to avoid render-blocking
+    requestAnimationFrame(() => {
+      setTimeout(async () => {
+        try {
+          await lazyLoadLibraries();
+          runDiagnostics();
+          modules['command-center'].init();
+        } catch (err) {
+          console.error('Failed to initialize external dependencies:', err);
+        }
+      }, 50);
+    });
   }
 
   // ─── Start on DOM Ready ────────────────────────────────────
