@@ -31,7 +31,9 @@ const NexusApp = (() => {
 
     // Update nav items
     document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.toggle('active', item.dataset.page === page);
+      const isActive = item.dataset.page === page;
+      item.classList.toggle('active', isActive);
+      item.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
     // Update page views
@@ -191,6 +193,68 @@ const NexusApp = (() => {
     checkResponsive();
   }
 
+  // ─── Automated Self-Diagnostics Test Suite ────────────────
+  function runDiagnostics() {
+    console.log('%c⚙️ RUNNING AUTOMATED CORE SELF-DIAGNOSTICS...', 'color: #A78BFA; font-weight: bold; margin-top: 10px;');
+    const results = [];
+    
+    // Helper to log test states
+    function test(name, assertFn) {
+      try {
+        const pass = assertFn();
+        results.push({ name, pass, error: null });
+        if (pass) {
+          console.log(`%c  ✅ PASS: ${name}`, 'color: #4DFFBE;');
+        } else {
+          console.log(`%c  ❌ FAIL: ${name}`, 'color: #FF0087; font-weight: bold;');
+        }
+      } catch (e) {
+        results.push({ name, pass: false, error: e.message });
+        console.log(`%c  ❌ CRITICAL ERR: ${name} (${e.message})`, 'color: #FF0087; font-weight: bold;');
+      }
+    }
+
+    // 1. External Library Checks
+    test('Chart.js Library Loaded', () => typeof Chart !== 'undefined');
+    test('ECharts Library Loaded', () => typeof echarts !== 'undefined');
+    test('Leaflet Library Loaded', () => typeof L !== 'undefined');
+
+    // 2. Core Modules Checks
+    test('NexusData Module Loaded', () => typeof NexusData !== 'undefined');
+    test('NexusCharts Module Loaded', () => typeof NexusCharts !== 'undefined');
+    test('NexusStadiumMap Module Loaded', () => typeof NexusStadiumMap !== 'undefined');
+    test('CommandCenter Module Loaded', () => typeof CommandCenter !== 'undefined');
+    test('CrowdAnalytics Module Loaded', () => typeof CrowdAnalytics !== 'undefined');
+    test('SmartNavigation Module Loaded', () => typeof SmartNavigation !== 'undefined');
+    test('AIAssistant Module Loaded', () => typeof AIAssistant !== 'undefined');
+    test('Operations Module Loaded', () => typeof Operations !== 'undefined');
+    test('MultiLanguage Module Loaded', () => typeof MultiLanguage !== 'undefined');
+
+    // 3. Telemetry and Simulation Layer Checks
+    test('16 Venues Correctly Configured', () => NexusData.venues.length === 16);
+    test('48 Group Teams Correctly Configured', () => NexusData.teams.length === 48);
+    test('Live Crowd Data Telemetry Generator Active', () => {
+      const d = NexusData.getSimulatedCrowdData('metlife');
+      return d && d.totalCurrent > 0 && d.zones.length > 0;
+    });
+    test('Simulated Match Schedule Active', () => NexusData.getSimulatedMatches().length > 0);
+    test('Simulated Incident Dispatch Logs Active', () => NexusData.getSimulatedIncidents().length > 0);
+
+    // 4. GenAI Core Assistance Engine Checks
+    test('NEXUS AI Contextual Retrieval Matcher Active', () => {
+      const r1 = NexusData.getAIResponse('Show crowd density');
+      const r2 = NexusData.getAIResponse('unknown query test');
+      return r1.key === 'crowd' && r2.key === 'default' && r1.text && r2.text;
+    });
+
+    const failed = results.filter(r => !r.pass);
+    if (failed.length === 0) {
+      console.log('%c🟢 ALL SELF-DIAGNOSTICS PASSED SUCCESSFULLY (18/18 TESTS)', 'color: #4DFFBE; font-weight: bold; margin-bottom: 10px;');
+    } else {
+      console.warn(`%c⚠️ DIAGNOSTICS COMPLETED WITH ${failed.length} FAILURES. REVIEW CONSOLE LOGS.`, 'color: #FFDE73; font-weight: bold; margin-bottom: 10px;');
+    }
+  }
+
   // ─── Initialization ────────────────────────────────────────
   function init() {
     console.log('%c🏟️ NEXUS — FIFA World Cup 2026 Smart Stadium Command Center', 
@@ -198,6 +262,7 @@ const NexusApp = (() => {
     console.log('%cGenAI-Enabled Operations Platform | 16 Venues | 48 Teams | 104 Matches', 
       'color: #94A3B8; font-size: 11px;');
 
+    runDiagnostics();
     bindEvents();
     startClock();
     startAutoAlerts();

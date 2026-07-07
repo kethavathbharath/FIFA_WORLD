@@ -179,8 +179,16 @@ const AIAssistant = (() => {
   }
 
   function formatResponse(text) {
+    // Escape HTML tags to prevent XSS
+    let escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
     // Basic Markdown parser for HTML safe tags
-    let formatted = text
+    let formatted = escaped
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`([^`]+)`/g, '<code class="font-mono" style="background:rgba(255,255,255,0.06); padding:2px 4px; border-radius:4px;">$1</code>')
