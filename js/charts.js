@@ -415,3 +415,7 @@ const NexusCharts = (() => {
     destroyChart
   };
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = NexusCharts;
+}

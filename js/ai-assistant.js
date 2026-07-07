@@ -61,8 +61,8 @@ const AIAssistant = (() => {
           </div>
           
           <div class="chat-input-wrapper">
-            <input type="text" id="chat-user-input" class="chat-input" placeholder="Query crowd density, gate bottlenecks, or ask for operational recommendations..." />
-            <button class="chat-send-btn" id="chat-send-btn">➔</button>
+            <input type="text" id="chat-user-input" class="chat-input" placeholder="Query crowd density, gate bottlenecks, or ask for operational recommendations..." aria-label="Type operational query for NEXUS AI" />
+            <button class="chat-send-btn" id="chat-send-btn" aria-label="Send query">➔</button>
           </div>
         </div>
       </div>

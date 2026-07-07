@@ -37,13 +37,13 @@ const MultiLanguage = (() => {
 
         <div class="announcement-templates">
           <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center;" class="font-mono">TEMPLATES:</span>
-          ${templates.map((t, idx) => `<button class="template-chip" data-idx="${idx}">${t.substring(0, 30)}...</button>`).join('')}
+          ${templates.map((t, idx) => `<button class="template-chip" data-idx="${idx}" aria-label="Load template: ${t.substring(0, 30)}">${t.substring(0, 30)}...</button>`).join('')}
         </div>
 
-        <textarea id="announcement-input" class="announcement-textarea" placeholder="Type announcement message in English here...">${currentAnnouncement}</textarea>
+        <textarea id="announcement-input" class="announcement-textarea" placeholder="Type announcement message in English here..." aria-label="Announcement message text in English">${currentAnnouncement}</textarea>
         
         <div class="flex justify-between items-center mt-md">
-          <button class="translate-btn" id="btn-translate-submit">
+          <button class="translate-btn" id="btn-translate-submit" aria-label="Translate and stage announcement for broadcast">
             🤖 Translate & Stage for Broadcast
           </button>
           <div class="status-badge warning hidden" id="translation-loader" style="padding: 10px 16px;">
@@ -76,8 +76,8 @@ const MultiLanguage = (() => {
             </div>
           </div>
           <div class="flex-col gap-md">
-            <input type="text" id="detector-input" class="announcement-textarea" style="min-height:50px;" placeholder="Paste text here... (e.g. 'Bienvenidos al estadio')" />
-            <button class="panel-action-btn active" id="btn-detect-lang" style="padding: 10px; font-weight:600;">Identify Language</button>
+            <input type="text" id="detector-input" class="announcement-textarea" style="min-height:50px;" placeholder="Paste text here... (e.g. 'Bienvenidos al estadio')" aria-label="Paste foreign language text to identify" />
+            <button class="panel-action-btn active" id="btn-detect-lang" style="padding: 10px; font-weight:600;" aria-label="Identify language and translate to English">Identify Language</button>
             <div id="detector-result" class="bg-cyan-dim hidden" style="padding:16px; border-radius:8px; border:1.5px dashed var(--cyan); font-size:0.8rem;">
               <!-- Result rendered here -->
             </div>

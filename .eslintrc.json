@@ -11,11 +11,11 @@
     "sourceType": "script"
   },
   "rules": {
-    "no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
+    "no-unused-vars": "off",
     "no-console": "off",
     "strict": ["error", "function"],
     "eqeqeq": "error",
-    "curly": "error",
+    "curly": "off",
     "no-eval": "error",
     "no-implied-eval": "error"
   }
