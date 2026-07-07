@@ -77,13 +77,24 @@ const NexusApp = (() => {
     const container = document.getElementById('toast-container');
     const icons = { critical: '🚨', warning: '⚠️', info: 'ℹ️', success: '✅' };
     
+    // HTML Sanitizer
+    const esc = (str) => String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+      
+    const safeTitle = esc(title);
+    const safeMsg = esc(message);
+    
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.innerHTML = `
       <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
       <div class="toast-content">
-        <div class="toast-title">${title}</div>
-        <div class="toast-msg">${message}</div>
+        <div class="toast-title">${safeTitle}</div>
+        <div class="toast-msg">${safeMsg}</div>
       </div>
       <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
     `;
