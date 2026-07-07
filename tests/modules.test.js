@@ -71,9 +71,36 @@ document.body.innerHTML = `
   <div id="page-command-center"></div>
   <div id="page-crowd-analytics"></div>
   <div id="page-smart-navigation"></div>
-  <div id="page-ai-assistant"></div>
-  <div id="page-operations"></div>
-  <div id="page-multi-language"></div>
+  
+  <div id="page-ai-assistant">
+    <div id="chat-messages"></div>
+    <input id="chat-user-input" value="" />
+    <button id="chat-send-btn"></button>
+    <div id="chat-typing-indicator"></div>
+  </div>
+  
+  <div id="page-operations">
+    <button id="btn-apply-redeploy"></button>
+    <button id="btn-dismiss-redeploy"></button>
+    <div id="ops-ai-recs"></div>
+    <span id="ops-val-active">0</span>
+    <span id="ops-val-incidents">0</span>
+    <div id="ops-svg-container"></div>
+    <table>
+      <tbody id="ops-incident-tbody"></tbody>
+    </table>
+  </div>
+  
+  <div id="page-multi-language">
+    <textarea id="announcement-input"></textarea>
+    <button id="btn-translate-submit"></button>
+    <div id="translation-loader"></div>
+    <input id="detector-input" value="" />
+    <button id="btn-detect-lang"></button>
+    <div id="detector-result"></div>
+    <div id="language-translation-cards"></div>
+  </div>
+  
   <div id="toast-container"></div>
   <span id="clock-time"></span>
   <span id="header-notifications-badge"></span>
@@ -113,6 +140,11 @@ document.body.innerHTML = `
   <div id="ops-responder-grid"></div>
   <div id="ops-incident-table"></div>
   <div id="ops-map-container"></div>
+  
+  <!-- Evacuation simulation nodes -->
+  <div id="evac-time-val"></div>
+  <div id="evac-flow-val"></div>
+  <button id="btn-run-evac"></button>
 `;
 
 // Require and bind modules to global context so they resolve each other
@@ -206,5 +238,56 @@ describe('Core Module Integration & Lifecycle Tests', () => {
 
     // Trigger toast alerts to verify toast coverage
     expect(() => NexusApp.showToast('info', 'Test Title', 'Test message content')).not.toThrow();
+  });
+
+  test('Verify MultiLanguage translation and language detection interfaces', () => {
+    MultiLanguage.init();
+
+    // Simulate inputting text to translate
+    const inputEl = document.getElementById('announcement-input');
+    inputEl.value = 'Attention all fans: please proceed to the nearest exit.';
+    
+    // Simulate translation submit click
+    expect(() => document.getElementById('btn-translate-submit').click()).not.toThrow();
+
+    // Simulate language detection input
+    const detectorInput = document.getElementById('detector-input');
+    detectorInput.value = 'Bonjour, où se trouve le stade?';
+
+    // Simulate language detect click
+    expect(() => document.getElementById('btn-detect-lang').click()).not.toThrow();
+
+    MultiLanguage.destroy();
+  });
+
+  test('Verify AIAssistant chat queries and interactive template chips', () => {
+    AIAssistant.init();
+
+    const userInput = document.getElementById('chat-user-input');
+    
+    // Test normal valid query
+    userInput.value = 'Show crowd density';
+    expect(() => document.getElementById('chat-send-btn').click()).not.toThrow();
+
+    // Test default fallback query
+    userInput.value = 'some random query';
+    expect(() => document.getElementById('chat-send-btn').click()).not.toThrow();
+
+    AIAssistant.destroy();
+  });
+
+  test('Verify Operations and CrowdAnalytics live update bindings', () => {
+    Operations.init();
+    CrowdAnalytics.init();
+
+    // Simulate clicking apply and dismiss redeploy recommendations
+    expect(() => document.getElementById('btn-apply-redeploy').click()).not.toThrow();
+    expect(() => document.getElementById('btn-dismiss-redeploy').click()).not.toThrow();
+
+    // Simulate running evacuation simulator button
+    expect(() => document.getElementById('btn-run-evac').click()).not.toThrow();
+
+    Operations.destroy();
+    CrowdAnalytics.destroy();
   });
 });

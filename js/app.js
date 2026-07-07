@@ -21,6 +21,13 @@ const NexusApp = (() => {
   let activePage = 'command-center';
 
   // ─── Navigation ────────────────────────────────────────────
+  /**
+   * @description Navigates the SPA to the specified page module. Destroys the
+   * currently active module, updates nav/header UI, activates the target page
+   * view, and initialises the new module.
+   * @param {string} page - The page identifier key (must exist in the modules registry).
+   * @returns {void}
+   */
   function navigateTo(page) {
     if (page === activePage) {return;}
     
@@ -63,7 +70,17 @@ const NexusApp = (() => {
   }
 
   // ─── Clock ─────────────────────────────────────────────────
+  /**
+   * @description Starts the header clock by immediately rendering the current
+   * time and scheduling a 1-second interval to keep it updated.
+   * @returns {void}
+   */
   function startClock() {
+    /**
+     * @description Reads the current time and writes a formatted HH:MM:SS
+     * string into the #clock-time element.
+     * @returns {void}
+     */
     function updateClock() {
       const now = new Date();
       document.getElementById('clock-time').textContent = 
@@ -74,6 +91,15 @@ const NexusApp = (() => {
   }
 
   // ─── Toast Notifications ───────────────────────────────────
+  /**
+   * @description Creates and displays a toast notification in the #toast-container.
+   * The toast auto-removes itself after the specified duration.
+   * @param {string} type - Toast severity level ('critical' | 'warning' | 'info' | 'success').
+   * @param {string} title - Short headline text displayed in bold.
+   * @param {string} message - Descriptive body text of the notification.
+   * @param {number} [duration=5000] - Milliseconds before the toast auto-dismisses.
+   * @returns {void}
+   */
   function showToast(type, title, message, duration = 5000) {
     const container = document.getElementById('toast-container');
     const icons = { critical: '🚨', warning: '⚠️', info: 'ℹ️', success: '✅' };
@@ -109,8 +135,19 @@ const NexusApp = (() => {
   }
 
   // ─── Auto Alerts ───────────────────────────────────────────
+  /**
+   * @description Begins a recurring cycle of simulated operational alerts.
+   * Each cycle picks a random alert from a predefined list and shows it as
+   * a toast notification every 30–60 seconds.
+   * @returns {void}
+   */
   function startAutoAlerts() {
     // Show a random operational toast every 30-60 seconds
+    /**
+     * @description Schedules the next random alert toast after a randomised
+     * delay between 30 000 ms and 60 000 ms, then reschedules itself.
+     * @returns {void}
+     */
     function scheduleNext() {
       const delay = 30000 + Math.random() * 30000;
       setTimeout(() => {
@@ -136,6 +173,11 @@ const NexusApp = (() => {
   }
 
   // ─── Fullscreen ────────────────────────────────────────────
+  /**
+   * @description Toggles the browser between fullscreen and windowed mode
+   * using the Fullscreen API. Silently catches any permission errors.
+   * @returns {void}
+   */
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -145,11 +187,22 @@ const NexusApp = (() => {
   }
 
   // ─── Mobile Menu ───────────────────────────────────────────
+  /**
+   * @description Toggles the sidebar's 'mobile-open' CSS class to show or
+   * hide the mobile navigation drawer.
+   * @returns {void}
+   */
   function toggleMobileMenu() {
     document.getElementById('sidebar').classList.toggle('mobile-open');
   }
 
   // ─── Event Bindings ────────────────────────────────────────
+  /**
+   * @description Attaches all global DOM event listeners: nav-item clicks,
+   * fullscreen button, mobile menu toggle, notification button, keyboard
+   * shortcuts (Alt+1–6), and the responsive resize watcher.
+   * @returns {void}
+   */
   function bindEvents() {
     // Navigation clicks
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -192,6 +245,11 @@ const NexusApp = (() => {
     });
 
     // Responsive check
+    /**
+     * @description Checks the viewport width and shows/hides the mobile menu
+     * button. Closes the sidebar on wide viewports.
+     * @returns {void}
+     */
     function checkResponsive() {
       const mobileBtn = document.getElementById('mobile-menu-btn');
       if (window.innerWidth <= 768) {
@@ -206,11 +264,24 @@ const NexusApp = (() => {
   }
 
   // ─── Automated Self-Diagnostics Test Suite ────────────────
+  /**
+   * @description Executes a full suite of automated self-diagnostics covering
+   * external libraries, core modules, telemetry generators, and the GenAI
+   * contextual retrieval engine. Results are printed to the browser console.
+   * @returns {void}
+   */
   function runDiagnostics() {
     console.log('%c⚙️ RUNNING AUTOMATED CORE SELF-DIAGNOSTICS...', 'color: #A78BFA; font-weight: bold; margin-top: 10px;');
     const results = [];
     
     // Helper to log test states
+    /**
+     * @description Runs a single named assertion and logs PASS / FAIL /
+     * CRITICAL ERR to the console. Accumulates results for the summary.
+     * @param {string} name - Human-readable label for the test case.
+     * @param {Function} assertFn - Zero-argument function that returns a boolean.
+     * @returns {void}
+     */
     function test(name, assertFn) {
       try {
         const pass = assertFn();
@@ -267,38 +338,12 @@ const NexusApp = (() => {
     }
   }
 
-  const scriptCache = {};
-
-  /**
-   * Helper utility to dynamically inject script tags for lazy loading dependencies.
-   * @param {string} url - Destination URL of the JS file.
-   * @returns {Promise} Resolves when the script successfully executes.
-   */
-  function loadScript(url) {
-    if (scriptCache[url]) {return scriptCache[url];}
-    scriptCache[url] = new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = url;
-      script.async = true;
-      script.onload = () => resolve();
-      script.onerror = (err) => reject(err);
-      document.head.appendChild(script);
-    });
-    return scriptCache[url];
-  }
-
-  /**
-   * Loads heavy charting/mapping libraries in parallel after the initial paint.
-   */
-  function lazyLoadLibraries() {
-    return Promise.all([
-      loadScript('https://cdn.jsdelivr.net/npm/chart.js'),
-      loadScript('https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js'),
-      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
-    ]);
-  }
-
   // ─── Initialization ────────────────────────────────────────
+  /**
+   * @description Application entry-point. Binds events, starts the clock and
+   * auto-alert cycle, then boots the Command Center module.
+   * @returns {void}
+   */
   function init() {
     console.log('%c🏟️ NEXUS — FIFA World Cup 2026 Smart Stadium Command Center', 
       'color: #00F7FF; font-size: 16px; font-weight: bold; background: #0a0a0f; padding: 8px 16px; border-radius: 4px;');
@@ -309,18 +354,12 @@ const NexusApp = (() => {
     startClock();
     startAutoAlerts();
 
-    // Lazy load libraries after first paint to avoid render-blocking
-    requestAnimationFrame(() => {
-      setTimeout(async () => {
-        try {
-          await lazyLoadLibraries();
-          runDiagnostics();
-          modules['command-center'].init();
-        } catch (err) {
-          console.error('Failed to initialize external dependencies:', err);
-        }
-      }, 50);
-    });
+    try {
+      runDiagnostics();
+      modules['command-center'].init();
+    } catch (err) {
+      console.error('Failed to initialize Command Center:', err);
+    }
   }
 
   // ─── Start on DOM Ready ────────────────────────────────────
@@ -333,7 +372,6 @@ const NexusApp = (() => {
   return {
     navigateTo,
     showToast,
-    loadScript,
     get activePage() { return activePage; }
   };
 })();

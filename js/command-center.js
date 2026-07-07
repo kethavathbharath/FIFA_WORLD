@@ -69,6 +69,11 @@ const CommandCenter = (() => {
     eChartsInstances = {};
   }
 
+  /**
+   * @description Renders the full Command Center HTML layout including venue banner, KPI grid, map container, alert feed, match ticker, and system health gauges.
+   * @param {HTMLElement} container - The parent DOM element to inject rendered HTML into.
+   * @returns {void}
+   */
   function render(container) {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -196,6 +201,10 @@ const CommandCenter = (() => {
   }
 
   // ─── Update KPIs ───────────────────────────────────────────
+  /**
+   * @description Fetches the latest simulated crowd and staff data for the current venue and updates KPI DOM elements (fans, staff, occupancy, wait time).
+   * @returns {void}
+   */
   function updateKPIs() {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -212,6 +221,10 @@ const CommandCenter = (() => {
   }
 
   // ─── Initialize Map ────────────────────────────────────────
+  /**
+   * @description Initializes the Leaflet map centered on North America, adds a dark CartoDB basemap tile layer, and renders venue markers with live/upcoming match status popups.
+   * @returns {void}
+   */
   function initMap() {
     const mapContainer = document.getElementById('leaflet-map-container');
     if (!mapContainer) {return;}
@@ -289,10 +302,18 @@ const CommandCenter = (() => {
   };
 
   // ─── Initialize & Update Alert Feed ────────────────────────
+  /**
+   * @description Bootstraps the real-time GenAI alert feed by performing the first data refresh.
+   * @returns {void}
+   */
   function initAlertFeed() {
     updateAlertFeed();
   }
 
+  /**
+   * @description Fetches simulated alert data and re-renders the alert feed list with severity badges, timestamps, and AI-recommended action tags.
+   * @returns {void}
+   */
   function updateAlertFeed() {
     const feed = document.getElementById('command-alert-feed');
     if (!feed) {return;}
@@ -322,10 +343,18 @@ const CommandCenter = (() => {
   }
 
   // ─── Match Ticker ──────────────────────────────────────────
+  /**
+   * @description Bootstraps the live match ticker panel by triggering the initial data render.
+   * @returns {void}
+   */
   function initMatchTicker() {
     updateMatchTicker();
   }
 
+  /**
+   * @description Fetches simulated match data and re-renders ticker cards showing live scores, upcoming fixtures, and host venue names.
+   * @returns {void}
+   */
   function updateMatchTicker() {
     const ticker = document.getElementById('command-match-ticker');
     if (!ticker) {return;}
@@ -362,6 +391,10 @@ const CommandCenter = (() => {
   }
 
   // ─── System Health Gauges ──────────────────────────────────
+  /**
+   * @description Creates ECharts gauge instances for Wi-Fi load, power grid consumption, air quality, and CCTV camera status using simulated IoT sensor data.
+   * @returns {void}
+   */
   function initSystemGauges() {
     const iot = NexusData.getSimulatedIoTData();
     const colors = NexusCharts.colors;
@@ -372,6 +405,10 @@ const CommandCenter = (() => {
     eChartsInstances.security = NexusCharts.createGauge('gauge-security', iot.security.camerasOnline, 'CCTV Active', colors.pink);
   }
 
+  /**
+   * @description Refreshes all four ECharts gauge instances with the latest simulated IoT sensor readings.
+   * @returns {void}
+   */
   function updateGauges() {
     const iot = NexusData.getSimulatedIoTData();
     NexusCharts.updateGauge(eChartsInstances.wifi, iot.wifi.load);

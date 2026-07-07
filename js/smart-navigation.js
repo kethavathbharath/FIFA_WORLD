@@ -13,6 +13,10 @@ const SmartNavigation = (() => {
   let destId = 'concession-b';
   let showAccessibility = false;
 
+  /**
+   * @description Initializes the Smart Navigation module by rendering the layout, floor plan SVG, computing the initial route, and starting periodic facility wait-time updates.
+   * @returns {void}
+   */
   function init() {
     const container = document.getElementById('page-smart-navigation');
     if (!container) {return;}
@@ -25,11 +29,20 @@ const SmartNavigation = (() => {
     intervals.push(updateInterval);
   }
 
+  /**
+   * @description Clears all active update intervals and resets the intervals array to prevent memory leaks.
+   * @returns {void}
+   */
   function destroy() {
     intervals.forEach(clearInterval);
     intervals = [];
   }
 
+  /**
+   * @description Renders the full Smart Navigation HTML layout including origin/destination dropdowns, accessibility toggle, route info banner, SVG floor plan container, and facility wait-time list panel.
+   * @param {HTMLElement} container - The parent DOM element to inject rendered HTML into.
+   * @returns {void}
+   */
   function render(container) {
     const facilities = NexusData.getSimulatedFacilities();
     
@@ -112,6 +125,10 @@ const SmartNavigation = (() => {
   }
 
   // ─── Render Stadium SVG Floor Plan ────────────────────────
+  /**
+   * @description Programmatically creates an SVG concourse floor plan with outer/inner stadium rings, central pitch, facility POI markers with hover tooltips, and a dashed navigation route path layer.
+   * @returns {void}
+   */
   function renderFloorPlan() {
     const container = document.getElementById('nav-svg-container');
     if (!container) {return;}
@@ -228,6 +245,10 @@ const SmartNavigation = (() => {
   }
 
   // ─── Calculate & Draw Route Path ─────────────────────────
+  /**
+   * @description Calculates and draws the navigation route between the selected origin and destination POIs, highlights the relevant markers, renders a curved SVG path, and updates the route info banner with distance, time, and AI recommendations.
+   * @returns {void}
+   */
   function updateRoute() {
     const facilities = NexusData.getSimulatedFacilities();
     const origin = facilities.find(f => f.id === originId);
@@ -300,6 +321,10 @@ const SmartNavigation = (() => {
   }
 
   // ─── Facility Wait Times List ──────────────────────────────
+  /**
+   * @description Fetches simulated facility data, sorts concessions/restrooms/merchandise by descending wait time, and renders facility queue cards showing name, section, queue length, and wait duration.
+   * @returns {void}
+   */
   function updateFacilityWaitTimes() {
     const grid = document.getElementById('nav-facility-grid');
     if (!grid) {return;}

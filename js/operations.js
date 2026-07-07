@@ -11,6 +11,10 @@ const Operations = (() => {
   let intervals = [];
   let incidents = [];
 
+  /**
+   * @description Initializes the Operations module by loading simulated incident data, rendering the main layout, staff map, incident table, and starting periodic live metric updates.
+   * @returns {void}
+   */
   function init() {
     const container = document.getElementById('page-operations');
     if (!container) {return;}
@@ -26,11 +30,20 @@ const Operations = (() => {
     intervals.push(statsInterval);
   }
 
+  /**
+   * @description Clears all active update intervals and resets the intervals array to prevent memory leaks.
+   * @returns {void}
+   */
   function destroy() {
     intervals.forEach(clearInterval);
     intervals = [];
   }
 
+  /**
+   * @description Renders the full Operations HTML layout including stats row, AI reallocation recommendation banner, staff/incident SVG map, tactical communications panel, and incident dispatch log table.
+   * @param {HTMLElement} container - The parent DOM element to inject rendered HTML into.
+   * @returns {void}
+   */
   function render(container) {
     const staff = NexusData.getSimulatedStaffData();
 
@@ -159,6 +172,10 @@ const Operations = (() => {
   }
 
   // ─── Render Staff Overlay map ─────────────────────────────
+  /**
+   * @description Creates and renders an SVG stadium overlay map displaying staff position pins (volunteers, security, medical) and pulsing active incident markers.
+   * @returns {void}
+   */
   function renderMap() {
     const container = document.getElementById('ops-svg-container');
     if (!container) {return;}
@@ -267,6 +284,10 @@ const Operations = (() => {
   }
 
   // ─── Incident Dispatch Log Table ───────────────────────────
+  /**
+   * @description Renders the incident dispatch log table rows with severity badges, status indicators, assignee info, and resolve action buttons, then updates the active incident count.
+   * @returns {void}
+   */
   function renderIncidentTable() {
     const tbody = document.getElementById('ops-incident-tbody');
     if (!tbody) {return;}
@@ -326,6 +347,10 @@ const Operations = (() => {
   };
 
   // ─── Live Telemetry Updates ────────────────────────────────
+  /**
+   * @description Periodically updates the AI recommendation card with randomly selected redeployment suggestions and makes the recommendation banner visible.
+   * @returns {void}
+   */
   function updateLiveMetrics() {
     // Random updates to recommendation card
     const desc = document.getElementById('ops-rec-desc');

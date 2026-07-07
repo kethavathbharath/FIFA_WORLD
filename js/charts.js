@@ -9,6 +9,12 @@ const NexusCharts = (() => {
   'use strict';
 
   // ─── Color Palette ─────────────────────────────────────────
+  /**
+   * @description Shared colour-palette object used by all chart factory
+   * functions and modules throughout NEXUS. Contains primary, dim, fill, and
+   * semantic text/grid colours.
+   * @type {Object.<string, string>}
+   */
   const colors = {
     cyan: '#00F7FF',
     cyanDim: 'rgba(0, 247, 255, 0.15)',
@@ -74,6 +80,16 @@ const NexusCharts = (() => {
   };
 
   // ─── Create Line Chart (Chart.js) ──────────────────────────
+  /**
+   * @description Creates a Chart.js line chart on the specified canvas element
+   * with sensible NEXUS defaults (smooth curves, hover interaction, consistent
+   * colour tokens).
+   * @param {string} canvasId - DOM id of the target `<canvas>` element.
+   * @param {string[]} labels - Array of x-axis category labels.
+   * @param {Object[]} datasets - Array of Chart.js dataset configuration objects.
+   * @param {Object} [options={}] - Optional Chart.js options overrides.
+   * @returns {Chart|null} The Chart.js instance, or null if the canvas is not found.
+   */
   function createLineChart(canvasId, labels, datasets, options = {}) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {return null;}
@@ -99,6 +115,16 @@ const NexusCharts = (() => {
   }
 
   // ─── Create Bar Chart (Chart.js) ───────────────────────────
+  /**
+   * @description Creates a Chart.js bar chart on the specified canvas element.
+   * Supports optional horizontal orientation via `options.horizontal`.
+   * @param {string} canvasId - DOM id of the target `<canvas>` element.
+   * @param {string[]} labels - Array of axis category labels.
+   * @param {Object[]} datasets - Array of Chart.js dataset configuration objects.
+   * @param {Object} [options={}] - Optional Chart.js options overrides; set
+   *   `options.horizontal = true` for a horizontal bar chart.
+   * @returns {Chart|null} The Chart.js instance, or null if the canvas is not found.
+   */
   function createBarChart(canvasId, labels, datasets, options = {}) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {return null;}
@@ -120,6 +146,16 @@ const NexusCharts = (() => {
   }
 
   // ─── Create Doughnut Chart (Chart.js) ──────────────────────
+  /**
+   * @description Creates a Chart.js doughnut chart with a 70% cutout and a
+   * bottom-positioned legend.
+   * @param {string} canvasId - DOM id of the target `<canvas>` element.
+   * @param {string[]} labels - Array of segment labels.
+   * @param {number[]} data - Array of numeric values for each segment.
+   * @param {string[]} chartColors - Background colours for each segment.
+   * @param {Object} [options={}] - Optional Chart.js options overrides.
+   * @returns {Chart|null} The Chart.js instance, or null if the canvas is not found.
+   */
   function createDoughnutChart(canvasId, labels, data, chartColors, options = {}) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {return null;}
@@ -160,6 +196,16 @@ const NexusCharts = (() => {
   }
 
   // ─── Create ECharts Gauge ──────────────────────────────────
+  /**
+   * @description Creates an Apache ECharts gauge chart inside the given
+   * container. Attaches a ResizeObserver so the gauge auto-resizes.
+   * @param {string} containerId - DOM id of the container element.
+   * @param {number} value - Current gauge value.
+   * @param {string} label - Descriptive label shown below the value.
+   * @param {string} color - CSS colour string for the progress arc and value text.
+   * @param {number} [max=100] - Maximum value of the gauge scale.
+   * @returns {Object|null} The ECharts instance, or null if the container is not found.
+   */
   function createGauge(containerId, value, label, color, max = 100) {
     const container = document.getElementById(containerId);
     if (!container) {return null;}
@@ -221,6 +267,15 @@ const NexusCharts = (() => {
   }
 
   // ─── Create ECharts Heatmap ────────────────────────────────
+  /**
+   * @description Creates an Apache ECharts heatmap chart with a green→pink
+   * colour gradient. Attaches a ResizeObserver for responsive resizing.
+   * @param {string} containerId - DOM id of the container element.
+   * @param {Array<Array<number>>} data - Array of [x, y, value] data points.
+   * @param {string[]} xLabels - Category labels for the x-axis.
+   * @param {string[]} yLabels - Category labels for the y-axis.
+   * @returns {Object|null} The ECharts instance, or null if the container is not found.
+   */
   function createHeatmap(containerId, data, xLabels, yLabels) {
     const container = document.getElementById(containerId);
     if (!container) {return null;}
@@ -301,6 +356,16 @@ const NexusCharts = (() => {
   }
 
   // ─── Create ECharts Radar ──────────────────────────────────
+  /**
+   * @description Creates an Apache ECharts radar chart. Attaches a
+   * ResizeObserver for responsive resizing.
+   * @param {string} containerId - DOM id of the container element.
+   * @param {Object[]} indicators - Array of radar axis indicator objects
+   *   (each with `name` and `max` properties).
+   * @param {number[]} data - Numeric values for each radar axis.
+   * @param {string} label - Legend label for the data series.
+   * @returns {Object|null} The ECharts instance, or null if the container is not found.
+   */
   function createRadar(containerId, indicators, data, label) {
     const container = document.getElementById(containerId);
     if (!container) {return null;}
@@ -347,6 +412,12 @@ const NexusCharts = (() => {
   }
 
   // ─── Update Gauge Value ────────────────────────────────────
+  /**
+   * @description Updates an existing ECharts gauge chart with a new value.
+   * @param {Object} chart - The ECharts gauge instance to update.
+   * @param {number} value - The new gauge value (will be rounded).
+   * @returns {void}
+   */
   function updateGauge(chart, value) {
     if (!chart) {return;}
     chart.setOption({
@@ -355,6 +426,14 @@ const NexusCharts = (() => {
   }
 
   // ─── Update Line Chart ─────────────────────────────────────
+  /**
+   * @description Updates an existing Chart.js line chart's labels and dataset
+   * data arrays in-place, then triggers a no-animation update.
+   * @param {Chart} chart - The Chart.js instance to update.
+   * @param {string[]} labels - Replacement x-axis labels.
+   * @param {Object[]} datasets - Array of objects with a `data` property.
+   * @returns {void}
+   */
   function updateLineChart(chart, labels, datasets) {
     if (!chart) {return;}
     chart.data.labels = labels;
@@ -367,6 +446,12 @@ const NexusCharts = (() => {
   }
 
   // ─── Destroy Chart ─────────────────────────────────────────
+  /**
+   * @description Safely destroys a chart instance. Works with both Chart.js
+   * (`.destroy()`) and ECharts (`.dispose()`) instances.
+   * @param {Object} chart - The chart instance to tear down.
+   * @returns {void}
+   */
   function destroyChart(chart) {
     if (!chart) {return;}
     if (chart.destroy) {chart.destroy();}
@@ -374,6 +459,14 @@ const NexusCharts = (() => {
   }
 
   // ─── Create Mini Spark Line (for inline use) ───────────────
+  /**
+   * @description Creates a minimal Chart.js sparkline chart (no axes, no
+   * legend, no tooltips) suitable for embedding inside stat cards.
+   * @param {string} canvasId - DOM id of the target `<canvas>` element.
+   * @param {number[]} data - Array of numeric data points.
+   * @param {string} [color=colors.cyan] - CSS colour string for the line.
+   * @returns {Chart|null} The Chart.js instance, or null if the canvas is not found.
+   */
   function createSparkline(canvasId, data, color = colors.cyan) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {return null;}

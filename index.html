@@ -27,14 +27,17 @@
 </head>
 <body>
 
-  <!-- Toast Notifications Container -->
-  <div class="toast-container" id="toast-container"></div>
+  <!-- Skip to main content link for keyboard/screen reader users -->
+  <a href="#content-area" class="skip-link" id="skip-nav">Skip to main content</a>
+
+  <!-- Toast Notifications Container (aria-live for screen readers) -->
+  <div class="toast-container" id="toast-container" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
   <!-- App Container -->
   <div class="app-container">
 
     <!-- ═══ Sidebar Navigation ═══ -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Primary Navigation">
       <div class="sidebar-header">
         <div class="sidebar-logo">N</div>
         <div class="sidebar-brand">
@@ -97,7 +100,7 @@
       <!-- Header -->
       <header class="header">
         <div class="header-left">
-          <button class="header-btn" id="mobile-menu-btn" style="display:none;">☰</button>
+          <button class="header-btn" id="mobile-menu-btn" style="display:none;" aria-label="Toggle mobile navigation menu">☰</button>
           <div>
             <div class="header-title">
               <span class="page-icon" id="header-page-icon">🎯</span>
@@ -127,15 +130,15 @@
         </div>
 
         <div class="header-right">
-          <div class="live-indicator">
+          <div class="live-indicator" role="status" aria-live="polite" aria-label="System status: Live">
             <span class="live-dot"></span>
             <span>LIVE</span>
           </div>
-          <button class="header-btn" id="btn-notifications" title="Notifications">
+          <button class="header-btn" id="btn-notifications" title="Notifications" aria-label="View notifications, 5 unread">
             🔔
             <span class="badge" id="notification-count">5</span>
           </button>
-          <button class="header-btn" id="btn-fullscreen" title="Fullscreen">⛶</button>
+          <button class="header-btn" id="btn-fullscreen" title="Toggle fullscreen mode" aria-label="Toggle fullscreen mode">⛶</button>
         </div>
       </header>
 
@@ -181,14 +184,17 @@
 
   <!-- Zone Tooltip (floating) -->
   <div class="zone-tooltip" id="zone-tooltip">
-    <h4 id="tooltip-title"></h4>
+    <h3 id="tooltip-title"></h3>
     <div class="stat"><span>Capacity</span><span class="stat-val" id="tooltip-capacity"></span></div>
     <div class="stat"><span>Current</span><span class="stat-val" id="tooltip-current"></span></div>
     <div class="stat"><span>Occupancy</span><span class="stat-val" id="tooltip-occupancy"></span></div>
     <div class="stat"><span>Temperature</span><span class="stat-val" id="tooltip-temp"></span></div>
   </div>
 
-  <!-- External Libraries are lazy-loaded dynamically in app.js to maximize PageSpeed scores -->
+  <!-- ═══ External Libraries ═══ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 
   <!-- ═══ Application Scripts ═══ -->
   <script src="js/data.js" defer></script>

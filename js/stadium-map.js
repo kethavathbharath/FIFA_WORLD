@@ -229,6 +229,13 @@ const NexusStadiumMap = (() => {
   }
 
   // ─── Update Zone Colors & Values ───────────────────────────
+  /**
+   * @description Updates existing SVG zone groups with new density CSS classes and refreshes occupancy percentage text labels.
+   * @param {Object} zoneGroups - A map of zone ID strings to their corresponding SVG group elements.
+   * @param {Array} zones - Array of zone data objects containing id, density, and occupancy properties.
+   * @param {boolean} showValues - Whether to update the occupancy percentage text inside each zone.
+   * @returns {void}
+   */
   function updateZones(zoneGroups, zones, showValues) {
     zones.forEach(zone => {
       const group = zoneGroups[zone.id];
@@ -248,6 +255,18 @@ const NexusStadiumMap = (() => {
   }
 
   // ─── SVG Helper: Arc Path for Stadium Sections ─────────────
+  /**
+   * @description Generates an SVG path string describing a closed arc sector between an outer and inner ellipse, used to render stadium seating sections.
+   * @param {number} cx - The x-coordinate of the ellipse center.
+   * @param {number} cy - The y-coordinate of the ellipse center.
+   * @param {number} outerRx - The horizontal radius of the outer ellipse.
+   * @param {number} outerRy - The vertical radius of the outer ellipse.
+   * @param {number} startAngle - The start angle of the arc sector in degrees.
+   * @param {number} endAngle - The end angle of the arc sector in degrees.
+   * @param {number} innerRx - The horizontal radius of the inner ellipse.
+   * @param {number} innerRy - The vertical radius of the inner ellipse.
+   * @returns {string} An SVG path data string (M, A, L, Z commands) for the arc sector.
+   */
   function describeArc(cx, cy, outerRx, outerRy, startAngle, endAngle, innerRx, innerRy) {
     const start1 = polarToCartesian(cx, cy, outerRx, outerRy, endAngle);
     const end1 = polarToCartesian(cx, cy, outerRx, outerRy, startAngle);
@@ -265,6 +284,15 @@ const NexusStadiumMap = (() => {
     ].join(' ');
   }
 
+  /**
+   * @description Converts polar ellipse coordinates (center, radii, angle) to Cartesian (x, y) coordinates for SVG path construction.
+   * @param {number} cx - The x-coordinate of the ellipse center.
+   * @param {number} cy - The y-coordinate of the ellipse center.
+   * @param {number} rx - The horizontal radius of the ellipse.
+   * @param {number} ry - The vertical radius of the ellipse.
+   * @param {number} angleDeg - The angle in degrees (0° = top, clockwise).
+   * @returns {{x: number, y: number}} An object with x and y Cartesian coordinates.
+   */
   function polarToCartesian(cx, cy, rx, ry, angleDeg) {
     const rad = (angleDeg - 90) * Math.PI / 180;
     return {
@@ -274,6 +302,16 @@ const NexusStadiumMap = (() => {
   }
 
   // ─── SVG Helpers ───────────────────────────────────────────
+  /**
+   * @description Creates an SVG rect element with the specified position, dimensions, and optional attributes.
+   * @param {SVGElement} parent - The parent SVG element (used for namespace context, not appended).
+   * @param {number} x - The x-coordinate of the rectangle.
+   * @param {number} y - The y-coordinate of the rectangle.
+   * @param {number} w - The width of the rectangle.
+   * @param {number} h - The height of the rectangle.
+   * @param {Object} [attrs={}] - Optional key-value pairs of additional SVG attributes to set.
+   * @returns {SVGRectElement} The created SVG rect element.
+   */
   function createRect(parent, x, y, w, h, attrs = {}) {
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     rect.setAttribute('x', x);
@@ -284,6 +322,15 @@ const NexusStadiumMap = (() => {
     return rect;
   }
 
+  /**
+   * @description Creates an SVG text element with the specified position, text content, and CSS class name.
+   * @param {SVGElement} parent - The parent SVG element (used for namespace context, not appended).
+   * @param {number} x - The x-coordinate of the text element.
+   * @param {number} y - The y-coordinate of the text element.
+   * @param {string} text - The text content to display.
+   * @param {string} className - The CSS class name to apply to the text element.
+   * @returns {SVGTextElement} The created SVG text element.
+   */
   function createText(parent, x, y, text, className) {
     const el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     el.setAttribute('x', x);
@@ -294,6 +341,12 @@ const NexusStadiumMap = (() => {
   }
 
   // ─── Tooltip Helper ────────────────────────────────────────
+  /**
+   * @description Displays the zone tooltip element at the mouse cursor position, populated with zone name, capacity, current load, occupancy percentage, and temperature.
+   * @param {Object} zoneData - The zone data object containing name, capacity, current, occupancy, and temperature properties.
+   * @param {MouseEvent} event - The mouse event used to position the tooltip near the cursor.
+   * @returns {void}
+   */
   function showTooltip(zoneData, event) {
     const tooltip = document.getElementById('zone-tooltip');
     if (!tooltip) {return;}
@@ -309,6 +362,10 @@ const NexusStadiumMap = (() => {
     tooltip.classList.add('visible');
   }
 
+  /**
+   * @description Hides the zone tooltip by removing the 'visible' CSS class from the tooltip DOM element.
+   * @returns {void}
+   */
   function hideTooltip() {
     const tooltip = document.getElementById('zone-tooltip');
     if (tooltip) {tooltip.classList.remove('visible');}

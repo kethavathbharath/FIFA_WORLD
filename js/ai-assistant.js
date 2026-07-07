@@ -12,6 +12,11 @@ const AIAssistant = (() => {
   let isTyping = false;
   let chartIndex = 0;
 
+  /**
+   * @description Initialises the AI Assistant module. Renders the chat UI into
+   * the page container, adds the welcome message, and binds input events.
+   * @returns {void}
+   */
   function init() {
     const container = document.getElementById('page-ai-assistant');
     if (!container) {return;}
@@ -25,11 +30,22 @@ const AIAssistant = (() => {
     bindEvents();
   }
 
+  /**
+   * @description Tears down the AI Assistant module by clearing the messages
+   * container reference and resetting the typing flag.
+   * @returns {void}
+   */
   function destroy() {
     messagesContainer = null;
     isTyping = false;
   }
 
+  /**
+   * @description Renders the full AI chat interface HTML (header, message
+   * area, suggestion chips, and input bar) into the provided container.
+   * @param {HTMLElement} container - The parent DOM element to render into.
+   * @returns {void}
+   */
   function render(container) {
     container.innerHTML = `
       <div class="glass-panel ai-chat-container animate__animated animate__fadeIn">
@@ -72,6 +88,11 @@ const AIAssistant = (() => {
     `;
   }
 
+  /**
+   * @description Binds click and keyboard event listeners to the send button,
+   * input field (Enter key), and suggestion chip buttons.
+   * @returns {void}
+   */
   function bindEvents() {
     const sendBtn = document.getElementById('chat-send-btn');
     const input = document.getElementById('chat-user-input');
@@ -95,6 +116,11 @@ const AIAssistant = (() => {
     });
   }
 
+  /**
+   * @description Reads the user's input, adds a user chat bubble, shows the
+   * typing indicator, and schedules a simulated AI response after a brief delay.
+   * @returns {void}
+   */
   function sendMessage() {
     if (isTyping) {return;}
     
@@ -116,6 +142,11 @@ const AIAssistant = (() => {
     }, 1000 + Math.random() * 800);
   }
 
+  /**
+   * @description Inserts an animated "typing…" indicator bubble into the
+   * chat messages area and scrolls to the bottom.
+   * @returns {void}
+   */
   function showTypingIndicator() {
     isTyping = true;
     const indicator = document.createElement('div');
@@ -135,12 +166,28 @@ const AIAssistant = (() => {
     scrollToBottom();
   }
 
+  /**
+   * @description Removes the typing indicator bubble from the DOM and resets
+   * the `isTyping` lock so new messages can be sent.
+   * @returns {void}
+   */
   function hideTypingIndicator() {
     const indicator = document.getElementById('chat-typing-indicator');
     if (indicator) {indicator.remove();}
     isTyping = false;
   }
 
+  /**
+   * @description Appends a new chat message bubble (user or AI) to the
+   * messages container. AI messages are streamed with a typewriter effect;
+   * user messages are inserted immediately. Optionally renders an inline
+   * chart when `responseData.hasChart` is truthy.
+   * @param {string} role - Message author role ('user' | 'ai').
+   * @param {string} content - Raw message text content.
+   * @param {Object|null} [responseData=null] - AI response metadata (confidence,
+   *   hasChart, key). Null for user messages.
+   * @returns {void}
+   */
   function addMessage(role, content, responseData = null) {
     if (!messagesContainer) {return;}
 
@@ -181,6 +228,13 @@ const AIAssistant = (() => {
     }
   }
 
+  /**
+   * @description Escapes HTML entities for XSS prevention, then applies a
+   * lightweight Markdown parser (bold, italic, inline code, line breaks,
+   * bullet points, and pipe-delimited tables).
+   * @param {string} text - Raw response text to format.
+   * @returns {string} Sanitised HTML string safe for innerHTML injection.
+   */
   function formatResponse(text) {
     // Escape HTML tags to prevent XSS
     let escaped = text
@@ -223,6 +277,14 @@ const AIAssistant = (() => {
     return formatted;
   }
 
+  /**
+   * @description Renders HTML content character-by-character into the target
+   * element with a blinking cursor, producing a typewriter streaming effect.
+   * @param {HTMLElement} element - The DOM element to type into.
+   * @param {string} htmlContent - Pre-formatted HTML string to stream.
+   * @param {number} [speed=20] - Base delay in milliseconds between characters.
+   * @returns {Promise<void>} Resolves when all characters have been rendered.
+   */
   async function typeEffect(element, htmlContent, speed = 20) {
     // Process HTML formatting tags instead of printing raw codes
     let tempDiv = document.createElement('div');
@@ -238,6 +300,16 @@ const AIAssistant = (() => {
     cursor.remove();
   }
 
+  /**
+   * @description Recursively walks a DOM subtree and streams each text node
+   * character-by-character, while cloning and inserting element nodes.
+   * @param {Node} sourceNode - The DOM node whose children will be streamed.
+   * @param {Node} targetNode - The live DOM node to insert content into.
+   * @param {HTMLElement} cursor - The blinking cursor element used as an
+   *   insertion reference point.
+   * @param {number} speed - Base delay in milliseconds between characters.
+   * @returns {Promise<void>} Resolves when all child nodes have been streamed.
+   */
   async function streamNodes(sourceNode, targetNode, cursor, speed) {
     for (const child of sourceNode.childNodes) {
       if (child.nodeType === Node.TEXT_NODE) {
@@ -257,6 +329,15 @@ const AIAssistant = (() => {
     }
   }
 
+  /**
+   * @description Renders a small inline Chart.js visualisation inside an AI
+   * chat bubble. The chart type is selected based on the response key
+   * ('crowd'/'evacuate' → line chart, 'match' → polar area).
+   * @param {HTMLElement} parentBubble - The `.chat-msg-bubble` element to
+   *   insert the chart into.
+   * @param {string} key - AI response key used to determine chart type.
+   * @returns {void}
+   */
   function renderInlineChart(parentBubble, key) {
     chartIndex++;
     const canvasId = `ai-inline-chart-${chartIndex}`;
@@ -309,6 +390,11 @@ const AIAssistant = (() => {
     }
   }
 
+  /**
+   * @description Scrolls the chat messages container to the bottom so the
+   * most recent message is visible.
+   * @returns {void}
+   */
   function scrollToBottom() {
     if (messagesContainer) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;

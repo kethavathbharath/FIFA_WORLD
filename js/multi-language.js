@@ -11,6 +11,12 @@ const MultiLanguage = (() => {
   let currentAnnouncement = "Welcome to the FIFA World Cup 2026! Enjoy the match.";
   let isTranslating = false;
 
+  /**
+   * @description Initialises the Multi-Language Hub module. Renders the UI,
+   * populates translation cards for all 12 supported languages, and binds
+   * template chip, translate, and language-detect events.
+   * @returns {void}
+   */
   function init() {
     const container = document.getElementById('page-multi-language');
     if (!container) {return;}
@@ -20,10 +26,22 @@ const MultiLanguage = (() => {
     bindEvents();
   }
 
+  /**
+   * @description Tears down the Multi-Language Hub module by resetting the
+   * translation-in-progress flag.
+   * @returns {void}
+   */
   function destroy() {
     isTranslating = false;
   }
 
+  /**
+   * @description Renders the full Multi-Language Hub HTML (announcement input,
+   * template chips, translation grid, language detector, and phrase book)
+   * into the provided container element.
+   * @param {HTMLElement} container - The parent DOM element to render into.
+   * @returns {void}
+   */
   function render(container) {
     const templates = NexusData.announcementTemplates;
 
@@ -116,6 +134,11 @@ const MultiLanguage = (() => {
     `;
   }
 
+  /**
+   * @description Binds DOM event listeners for template chips, the
+   * translate-and-stage button, and the AI language detector button.
+   * @returns {void}
+   */
   function bindEvents() {
     // Template chips
     document.querySelectorAll('.template-chip').forEach(chip => {
@@ -198,6 +221,14 @@ const MultiLanguage = (() => {
   }
 
   // ─── Render Language Cards ─────────────────────────────────
+  /**
+   * @description Builds and renders a translation card for each of the 12
+   * supported languages. When `stream` is true, translations are displayed
+   * with a character-by-character typing animation; otherwise the text is
+   * set immediately.
+   * @param {boolean} [stream=false] - Whether to animate the translation output.
+   * @returns {void}
+   */
   function renderTranslations(stream = false) {
     const grid = document.getElementById('language-translation-cards');
     if (!grid) {return;}
@@ -245,6 +276,14 @@ const MultiLanguage = (() => {
   }
 
   // Simple typing effect
+  /**
+   * @description Produces a simple typewriter animation by appending one
+   * character at a time to the target element with a blinking cursor.
+   * @param {HTMLElement} element - The DOM element to type into.
+   * @param {string} text - Plain text string to render character-by-character.
+   * @param {number} speed - Delay in milliseconds between each character.
+   * @returns {void}
+   */
   function typeText(element, text, speed) {
     element.textContent = '';
     let i = 0;

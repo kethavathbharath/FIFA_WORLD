@@ -67,6 +67,11 @@ const CrowdAnalytics = (() => {
     mapInstance = null;
   }
 
+  /**
+   * @description Renders the full Crowd Analytics HTML layout including venue selector, KPI cards, stadium map container, prediction charts, gate flow charts, AI insights panel, heatmap grid, and evacuation simulator.
+   * @param {HTMLElement} container - The parent DOM element to inject rendered HTML into.
+   * @returns {void}
+   */
   function render(container) {
     const venues = NexusData.venues;
     const currentVenue = NexusData.getCurrentVenue();
@@ -232,6 +237,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Render Stadium SVG Map ────────────────────────────────
+  /**
+   * @description Renders an interactive SVG stadium heatmap into the designated container using zone occupancy data, with click and hover event handlers for zone selection and tooltip display.
+   * @returns {void}
+   */
   function renderStadiumMap() {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -250,6 +259,11 @@ const CrowdAnalytics = (() => {
     });
   }
 
+  /**
+   * @description Selects a stadium zone by ID, highlights it on the SVG map, and renders detailed telemetry data (capacity, occupancy, temperature, noise level) in the zone details panel.
+   * @param {string} zoneId - The unique identifier of the stadium zone to select.
+   * @returns {void}
+   */
   function selectZone(zoneId) {
     selectedZoneId = zoneId;
     const venue = NexusData.getCurrentVenue();
@@ -320,6 +334,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Update Real-Time Data ────────────────────────────────
+  /**
+   * @description Fetches the latest simulated crowd data and refreshes KPI elements, SVG zone heatmap, and the selected zone detail panel in real time.
+   * @returns {void}
+   */
   function updateRealTimeData() {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -339,6 +357,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Chart.js: Prediction Chart ───────────────────────────
+  /**
+   * @description Initializes a Chart.js line chart comparing actual occupancy time-series data against AI-predicted forecast values with a dashed projection line.
+   * @returns {void}
+   */
   function initPredictionChart() {
     const actualData = NexusData.generateTimeSeriesData(12, 60, 15);
     const predictionData = NexusData.generatePredictionData(actualData, 6);
@@ -373,6 +395,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Chart.js: Gate Flow Chart ────────────────────────────
+  /**
+   * @description Initializes a horizontal Chart.js bar chart showing ingress and egress flow rates per gate entrance for the current venue.
+   * @returns {void}
+   */
   function initGateFlowChart() {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -399,6 +425,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── ECharts: Heatmap Grid Matrix ──────────────────────────
+  /**
+   * @description Initializes an ECharts heatmap matrix showing sector density values organized by cardinal direction (North, East, South, West) and tier level (Lower, Upper, Concourse).
+   * @returns {void}
+   */
   function initHeatmapGrid() {
     const yLabels = ['North', 'East', 'South', 'West'];
     const xLabels = ['Lower Tier', 'Upper Tier', 'Concourse'];
@@ -415,6 +445,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Update Charts ─────────────────────────────────────────
+  /**
+   * @description Refreshes the gate flow bar chart datasets with the latest simulated ingress and egress rate values.
+   * @returns {void}
+   */
   function updateCharts() {
     const venue = NexusData.getCurrentVenue();
     const crowdData = NexusData.getSimulatedCrowdData(venue.id);
@@ -431,6 +465,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── AI Insights Recommendations ───────────────────────────
+  /**
+   * @description Renders AI-generated operational recommendation cards (gate bottleneck alerts, sector load balancing, egress pre-checks) into the insights container.
+   * @returns {void}
+   */
   function renderAIInsights() {
     const container = document.getElementById('crowd-ai-insights');
     if (!container) {return;}
@@ -481,6 +519,10 @@ const CrowdAnalytics = (() => {
   }
 
   // ─── Evacuation Simulator ──────────────────────────────────
+  /**
+   * @description Binds click handlers to the evacuation simulator run button, executes a simulated Monte Carlo evacuation model with a 2.5-second delay, and displays the estimated clearance time result.
+   * @returns {void}
+   */
   function renderEvacSimulator() {
     const runBtn = document.getElementById('btn-run-evac');
     const simStatus = document.getElementById('evac-simulating-status');
