@@ -315,7 +315,7 @@ const NexusApp = (() => {
       } catch (err) {
         console.error('Failed to initialize external dependencies:', err);
       }
-    }, 600);
+    }, 1800);
   }
 
   // ─── Start on DOM Ready ────────────────────────────────────

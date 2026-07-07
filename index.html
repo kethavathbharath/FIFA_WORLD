@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
+  <!-- Preload critical resources to start fetching early -->
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="js/data.js" as="script">
+  <link rel="preload" href="js/app.js" as="script">
+
   <!-- Load Stylesheets Asynchronously to eliminate Render-Blocking delays -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" media="print" onload="this.media='all'" />
